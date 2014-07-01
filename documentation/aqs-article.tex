@@ -1,0 +1,183 @@
+% article example for classicthesis.sty
+\documentclass[10pt,a4paper]{article}
+\usepackage{lipsum}
+\usepackage{url}
+\usepackage[nochapters]{classicthesis} % nochapters
+
+\begin{document}
+    \title{\rmfamily\normalfont\spacedallcaps{Homework for
+        Quantitative Systems Analysis Exam}}
+    \author{\spacedlowsmallcaps{Massimo Nocentini}} \date{\today}
+    
+    \maketitle
+
+    %% \noindent\lipsum[1] Just a test.\footnote{This is a footnote.}      
+    \begin{abstract}
+      This short article collects the work I did in order to support
+      my Quantitative Systems Analysis exam. The goal is to study
+      resources usage respect a collection of user profiles, each of
+      them catch a way of using some applications of interest in
+      different time windows. I performed some experiments collecting
+      results in a OLAP ``star''-like relational schema in order to
+      provide summaries for dimensions under study, such as bandwidth
+      usage, network activity, CPU and memory consumption.
+    \end{abstract}
+       
+    \tableofcontents
+
+    \newpage
+   
+    \section{Introduction}
+
+    This homework aims to study resources usage respect a collection
+    of user profiles; we're mainly interested on network activities,
+    but we pair it with CPU and memory consumption. In order to
+    complete this work we take it apart, discussing the activity plan,
+    the instrumentation of the system used by different profiles, the
+    plan of experiments and finally data management and analysis of
+    results in the following sections. In the 
+ 
+    \section{Activity Plan}
+    In this section I tackle the problem at hand describing the
+    methodology used to perform the requested analysis, breaking the
+    problem statement down in its major components. In the next
+    section I'll describe them informally, leaving a precise
+    description of their actions in \autoref{sec:plan-of-experiment}.
+
+
+    \subsection{User profiles}
+    A central concept is that of \emph{user profile} which abstract
+    the behavior of a person using a computer. In this homework I've
+    considered two user profiles: a \emph{landlady} and a
+    \emph{computer scientist}. Informally, a landlady will use the
+    computer for simple tasks such as checking emails, surfing the web
+    and watch some YouTube videos; on the other hand a computer
+    scientist will use the computer for writing Tex documents,
+    programming (in Smalltalk especially), collaborate with colleagues
+    via instant messaging and checking its email account.
+
+    \subsection{Different workloads at different hours}
+    In order to study the user profiles I arranged that each one of
+    them performs their actions repeating the same sequence of steps
+    (with some minor variants) in three different time windows, namely
+    in the morning, in the afternoon and in the evening. This allow us
+    to characterize the same activity in different time windows with
+    different workloads, in order to compare them in a quite real
+    scenario.
+
+    For example the \emph{landlady} user profile will do a quick check
+    of emails in the morning, writing short messages to her friends in
+    the afternoon while in the evening she replies to important mails
+    with more care, preparing two or more draft of her reply.
+
+    On the other side, the \emph{computer scientist} prepare a first
+    implementation of an algorithm in the morning, carefully stress it
+    with a test suite in the afternoon while in the evening he re-factor
+    it to perform better.
+
+    It is important to observe that each activity isn't performed in
+    solitude, that is both email checking and programming could happen
+    concurrently with other actions, for example searching some
+    information on the web. This allow us to reify a scenario that is
+    close to a real context, with the drawback of losing repetition
+    among experiment execution.
+
+    \subsection{Quantities to assess}
+    We are interested on the resource consumption for each user
+    profile during the three time windows as explained in the previous
+    section. In particular we identifies the following quantities to
+    be relevant for our analysis:
+    \begin{description}
+    \item[memory] the amount of free, buffered and cached memory;
+    \item[disk IO] the blocks received from and sent to a block
+      device;
+    \item[CPU] the time spent running non-kernel code, kernel code and
+      idle cycles;
+    \item[network traffic] incoming and outgoing packets through a
+      network interface, in particular we perform a complete packet
+      sniffing in order to aggregate results as explained in
+      \autoref{sec:data-management-result-analysis}.
+    \end{description}
+
+
+    \subsection{Factors and experiment conditioning}
+    Since we would like to perform a monitoring of actions that
+    actually happened, we fix as ``held-constant factors'' the use of
+    applications as defined in \autoref{sec:plan-of-experiment}, while
+    as ``allowed-to-vary factors'' every little deviations and
+    ``micro'' actions from the main line experiment description. 
+
+    This implies that experiment definition be described proposing an
+    ``average'' behavior, allowing us to study the ``confirmation'' of
+    measured quantities respect the same activity; the ``discovery''
+    of patterns under slightly different operational conditions and
+    ``stability'' of collected measure.
+
+    \section{Measuring system instrumentation}
+    To collect data about quantities of interest we've instrumented a
+    laptop (from now we call it the ``instrumented system'' or just
+    ``system'') used by the two user profiles. Since our study is a
+    kind of monitoring, we need to setup neither hardware/software
+    probes nor failure injectors.
+
+    The system have a 64bit Intel architecture, equipped with 8 GB of
+    RAM powered by Ubuntu Linux 14.04 LTS distribution. Two different
+    tools had been used to collect quantities:
+
+    \subsection{vmstat} 
+    To measure memory and CPU usage, we've used the command line tool
+    \emph{vmstat} \cite{vmstat}. This tool is very lightweight and
+    print a summary line with a super set of the information we
+    need. In particular the command we've used is the following:
+\begin{verbatim}
+vmstat 15 -n -S M > computer-scientist-morning-day-<n>.log
+\end{verbatim}
+    just a few explanations: every $15$ seconds prints a summary line,
+    ``-n'' doesn't repeat an header line periodically, ``-S M'' use
+    Megabytes as measure unit for memory quantities, ``$> ...$''
+    redirecting to a file in order to post process data;
+
+    \subsection{SNORT} 
+    To measure network traffic we've used the \emph{SNORT} tool
+    \cite{SNORT}, as required by homework assignment. We've made a
+    first attempt to write some custom rule in order to filter some
+    messaging, but since the experiments we wish to perform aren't so
+    complicated, we've chosen a complete sniffing approach, in order
+    to save everything in a binary file ready for a later processing
+    using the ``read'' feature provided by \emph{SNORT} itself. So,
+    according the manual \cite{SNORT-manual}, we sniffed packages with
+    the following command:
+\begin{verbatim}
+sudo snort -l snort-logs/ -b
+\end{verbatim}
+
+
+    \section{Plan of experiments}
+    \label{sec:plan-of-experiment}
+    \lipsum[1]
+
+    \section{Data management and analysis of results}
+    \label{sec:data-management-result-analysis}
+    \lipsum[1]
+    
+    \begin{thebibliography}{9}
+
+    \bibitem{SNORT}
+      SNORT Team,
+      \url{https://www.snort.org/}.
+
+    \bibitem{SNORT-manual}
+      SNORT Team,
+      \url{http://manual.snort.org/}.
+
+    \bibitem{vmstat}
+      Free Software Foundation,
+      \url{http://www.freebsd.org/cgi/man.cgi?query=vmstat}.
+    \end{thebibliography}
+    % % bib stuff
+    % \nocite{*}
+    % \addtocontents{toc}{\protect\vspace{\beforebibskip}}
+    % \addcontentsline{toc}{section}{\refname}    
+    % \bibliographystyle{plain}
+    % \bibliography{../Bibliography}
+\end{document}
