@@ -24,10 +24,8 @@
     \end{abstract}
        
     \tableofcontents
-
-    \newpage
    
-    \section{Introduction}
+    \section*{Introduction}
 
     This homework aims to study resources usage respect a collection
     of user profiles; we're mainly interested on network activities,
@@ -37,6 +35,7 @@
     plan of experiments and finally data management and analysis of
     results in the following sections. In the 
  
+    \newpage
     \section{Activity Plan}
     In this section I tackle the problem at hand describing the
     methodology used to perform the requested analysis, breaking the
@@ -130,12 +129,19 @@
     print a summary line with a super set of the information we
     need. In particular the command we've used is the following:
 \begin{verbatim}
-vmstat 15 -n -S M > computer-scientist-morning-day-<n>.log
+vmstat <sec> -n -S M 
 \end{verbatim}
-    just a few explanations: every $15$ seconds prints a summary line,
+    just a few explanations: every $sec$ seconds prints a summary line,
     ``-n'' doesn't repeat an header line periodically, ``-S M'' use
     Megabytes as measure unit for memory quantities, ``$> ...$''
-    redirecting to a file in order to post process data;
+    redirecting to a file in order to post process data. 
+
+    While repeating experiments we change $sec$ respect to duration of
+    the experiment at hand, that is for short experiments we need more
+    granularity, hence we use $sec = 1$ (this is the case for
+    \emph{experiment one} regarding \emph{landlady} user profile). On
+    the other hand we increase it for ``long'' experiment (this is the
+    case for experiments regarding \emph{FSF supporter} user profile).
 
     \subsection{SNORT} 
     To measure network traffic we've used the \emph{SNORT} tool
@@ -148,18 +154,31 @@ vmstat 15 -n -S M > computer-scientist-morning-day-<n>.log
     according the manual \cite{SNORT-manual}, we sniffed packages with
     the following command:
 \begin{verbatim}
-sudo snort -l snort-logs/ -b
+sudo snort -l <log-directory>/ -b
 \end{verbatim}
 
 
+    \newpage
     \section{Plan of experiments}
     \label{sec:plan-of-experiment}
     In this section we plan the experiments to gain insight about
     resource usage by different user profiles, describing experiments
     for each profile in a dedicated subsection.
 
+    
+    FOR EACH PLAN ADD SOME LINES WITH THE INTENT AND THE APPLICATION
+    WE STRESS IN DIFFERENT WAYS AND HOW EXPERIMENT ARE RELATED.
+
     \subsection{Landlady experiments plan}
 
+    \subsubsection*{Experiments design }
+    to fill
+
+    \subsubsection*{Experiments relations}
+    to fill
+
+    \subsubsection*{Experiments descriptions}
+    
     \begin{description}
     \item[experiment one] In the morning, the landlady open Mozilla
       Firefox browser, log in into her \emph{GMail} account, checks for
@@ -182,14 +201,26 @@ sudo snort -l snort-logs/ -b
       mean a message with at least 120 words.
     \end{description}
 
+    \newpage
     \subsection{Computer scientist experiments plan}
+
+    \subsubsection*{Experiments design }
+    to fill
+
+    \subsubsection*{Experiments relations}
+    to fill
+
+    \subsubsection*{Experiments descriptions}
+    
     \begin{description}
     \item[experiment one] In the early morning, the computer scientist
+      open the Mozilla Firefox browser, logs in into his GMail account
+      and do a quick check for new messages; we assume that he reads
+      at least one message. Then, keeping the browser running, he
       writes a draft of at least 400 words using the Emacs text
-      editor, compiles it using \TeX three times. Then he upload a
-      backup copy on its Google Drive space using Mozilla Firefox
-      browser. Finally he writes one message to his advisor with the
-      compiled draft as attachment from his GMail web mail interface.
+      editor, compiles it using \TeX three times. Then he writes one
+      message to his advisor with the compiled draft as
+      attachment. Finally he logs out from Google web mail interface.
     \item[experiment two] In the late morning, the computer scientist
       do some hacking on his Pharo Smalltalk system, executing an
       intensive fluid dynamics analysis for a gas network. This
@@ -212,23 +243,33 @@ sudo snort -l snort-logs/ -b
       change the compiled file dimension.
     \end{description}
 
+    \newpage
     \subsection{FSF supporter experiment plan}
+
+    \subsubsection*{Experiments design }
+    to fill
+
+    \subsubsection*{Experiments relations}
+    to fill
+
+    \subsubsection*{Experiments descriptions}
+    
     \begin{description}
-    \item[experiment one] In the morning, the FSF supporter opens
-      the Bit Torrent Transmission client application in order to
-      supply bandwidth providing latest Ubuntu Linux ISO image
-      distribution. He set an upload limit at 50 KB/s and keeps
-      Transmission running for about two minutes.
+    \item[experiment one] In the morning, the FSF supporter opens the
+      Bit Torrent Transmission client application in order to supply
+      bandwidth providing latest Kubuntu Linux ISO image
+      distribution. He doesn't set any bandwidth upload limit and
+      keeps Transmission running for about two minutes.
     \item[experiment two] In the afternoon, the FSF supporter opens
       the Bit Torrent Transmission client application in order to
-      supply bandwidth providing latest Kubuntu Linux ISO image
-      distribution. He set an upload limit at 50 KB/s and keeps
-      Transmission running for about two minutes.
+      supply bandwidth providing latest Ubuntu Linux ISO image
+      distribution. He doesn't set any bandwidth upload limit and
+      keeps Transmission running for about two minutes.
     \item[experiment three] In the evening, the FSF supporter opens
       the Bit Torrent Transmission client application in order to
       supply bandwidth providing latest Xubuntu Linux ISO image
-      distribution. He set an upload limit at 50 KB/s and keeps
-      Transmission running for about two minutes.
+      distribution. He doesn't set any bandwidth upload limit and
+      keeps Transmission running for about two minutes.
     \end{description}
 
     \subsection{Execution methodology}
@@ -241,10 +282,12 @@ sudo snort -l snort-logs/ -b
       two}, \emph{Day three}, \emph{Day four} and \emph{Day five},
     respectively.
 
+    \newpage
     \section{Data management and analysis of results}
     \label{sec:data-management-result-analysis}
     \lipsum[1]
     
+    \newpage
     \begin{thebibliography}{9}
 
     \bibitem{SNORT}
