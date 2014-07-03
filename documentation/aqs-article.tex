@@ -36,7 +36,7 @@
     results in the following sections. In the 
  
     \newpage
-    \section{Activity Plan}
+    \section{Analysis Plan}
     In this section I tackle the problem at hand describing the
     methodology used to perform the requested analysis, breaking the
     problem statement down in its major components. In the next
@@ -47,39 +47,42 @@
     \subsection{User profiles}
     A central concept is that of \emph{user profile} which abstract
     the behavior of a person using a computer. In this homework I've
-    considered two user profiles: a \emph{landlady} and a
-    \emph{computer scientist}. Informally, a landlady will use the
-    computer for simple tasks such as checking emails, surfing the web
-    and watch some YouTube videos; on the other hand a computer
-    scientist will use the computer for writing Tex documents,
-    programming (in Smalltalk especially), collaborate with colleagues
-    via instant messaging and checking its email account.
+    considered three user profiles: a \emph{landlady}, a
+    \emph{computer scientist} and a \emph{Free Software Foundation
+      supporter}. Informally, a landlady will use the computer for
+    simple tasks such as checking emails, surfing the web and watch
+    some YouTube videos; on the other hand a computer scientist will
+    use the computer for writing \TeX documents, programming (in
+    Smalltalk especially), collaborate with colleagues via instant
+    messaging and checking its email account. Finally a FSF supporter
+    just makes available its bandwidth supplying Ubuntu like distros
+    via Torrent protocol.
 
-    \subsection{Different workloads at different hours}
+    \subsection{Different workloads in different time windows}
     In order to study the user profiles I arranged that each one of
-    them performs their actions repeating the same sequence of steps
-    (with some minor variants) in three different time windows, namely
-    in the morning, in the afternoon and in the evening. This allow us
-    to characterize the same activity in different time windows with
-    different workloads, in order to compare them in a quite real
-    scenario.
+    them performs their activities repeating the same sequence of
+    actions (with some minor variants) in three different time
+    windows, namely in the morning, in the afternoon and in the
+    evening. This allow us to characterize the same activity in
+    different time windows with different workloads, in order to
+    compare them in a quite real scenario.
 
     For example the \emph{landlady} user profile will do a quick check
     of emails in the morning, writing short messages to her friends in
     the afternoon while in the evening she replies to important mails
-    with more care, preparing two or more draft of her reply.
-
-    On the other side, the \emph{computer scientist} prepare a first
-    implementation of an algorithm in the morning, carefully stress it
-    with a test suite in the afternoon while in the evening he re-factor
-    it to perform better.
+    with more care, preparing some drafts of her reply.  On the other
+    side, the \emph{computer scientist} writes articles in the
+    morning, programs in the middle of the day and reviews the morning
+    work in the evening.  Finally, the \emph{FSF supporter} keeps its
+    Bit Torrent client open for the entire day, switching the distros
+    image supplied between morning, afternoon and evening.
 
     It is important to observe that each activity isn't performed in
     solitude, that is both email checking and programming could happen
     concurrently with other actions, for example searching some
     information on the web. This allow us to reify a scenario that is
     close to a real context, with the drawback of losing repetition
-    among experiment execution.
+    among experiments execution.
 
     \subsection{Quantities to assess}
     We are interested on the resource consumption for each user
@@ -163,7 +166,8 @@ sudo snort -l <log-directory>/ -b
     \label{sec:plan-of-experiment}
     In this section we plan the experiments to gain insight about
     resource usage by different user profiles, describing experiments
-    for each profile in a dedicated subsection.
+    for each profile in a dedicated subsection and the motivations
+    underlying each one of them.
 
     
     FOR EACH PLAN ADD SOME LINES WITH THE INTENT AND THE APPLICATION
@@ -172,10 +176,24 @@ sudo snort -l <log-directory>/ -b
     \subsection{Landlady experiments plan}
 
     \subsubsection*{Experiments design }
-    to fill
+    We created the following experiments in order to stress the
+    activity of mail checking in particular, since this is the main
+    task performed by our landlady user profile. Here we're not very
+    interested on CPU and memory consumption, instead we remarkably
+    vary the workloads to see changes in network traffic: especially,
+    in \emph{experiment two} we pair writing short messages with
+    watching a YouTube video, while in \emph{experiment three} we
+    perform drafts preparation using Google web mail interface in
+    order to study the impact of automatic saving policy.
 
     \subsubsection*{Experiments relations}
-    to fill
+    The following experiment are all related by the common factor of
+    studying mail checking/writing activity. \emph{Experiment two} has
+    an additional video watching action just to differentiate
+    substantially from \emph{experiment one}, since our goal here is
+    to compare data relative the \emph{same} experiment collected in
+    \emph{different} days, not comparing data relative
+    \emph{different} experiments collected in the \emph{same} day.
 
     \subsubsection*{Experiments descriptions}
     
