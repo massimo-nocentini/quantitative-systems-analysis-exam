@@ -3,6 +3,8 @@
 \usepackage{lipsum}
 \usepackage{url}
 \usepackage[nochapters]{classicthesis} % nochapters
+% \usepackage[showframe=true]{geometry}  
+\usepackage{changepage}
 
 \begin{document}
     \title{\rmfamily\normalfont\spacedallcaps{Homework for
@@ -331,8 +333,204 @@ sudo snort -l <log-directory>/ -b
     \section{Data management and analysis of results}
     \label{sec:data-management-result-analysis}
     \lipsum[1]
-    
+
+    \input{summary-Landlady.tex}
+
+
+  %   \begin{table}
+  %     \begin{adjustwidth}{-2cm}{}
+  %     \centering
+  %     \begin{tabular}{l| l| l | l| l }
+  %       & Experiment 1& Experiment 2& Experiment 3& Experiment 4\\
+  %       \hline
+  %     Day 1 &
+  %     \begin{tabular}{ l  r }
+  %       cpu idle & 96.1 \% \\
+  %       cpu user& 2\%  \\
+  %       cpu kernel & 1.1 \% \\
+  %       free mem & 4.3 GB \\
+  %       \hline
+  %       num packets & 9283 \\
+  %       dim sum & 1.5 MB \\
+  %       packets/sec & 6 \\
+  %       interlap & 6 secs \\
+  %       UDP & 6 \\
+  %       TCP msgs & 6\% \\
+  %       dim/msg & 146.3 Byte \\
+  %     \end{tabular} &       \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %     \end{tabular} &       \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %     \end{tabular} &      \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\       
+  %     \end{tabular} \\
+  %       \hline
+  %     Day 1 &
+  %     \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %       interlap & 6 \\
+  %     \end{tabular} &       \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %     \end{tabular} &       \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %     \end{tabular} &      \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\       
+  %     \end{tabular} \\
+  %       \hline
+  %     Day 1 &
+  %     \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %       interlap & 6 \\
+  %     \end{tabular} &       \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %     \end{tabular} &       \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %     \end{tabular} &      \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\       
+  %     \end{tabular} \\
+  %       \hline
+  %     Day 1 &
+  %     \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %       interlap & 6 \\
+  %     \end{tabular} &       \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %     \end{tabular} &       \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %     \end{tabular} &      \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\       
+  %     \end{tabular} \\
+  %       \hline
+  %     Day 1 &
+  %     \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %       interlap & 6 \\
+  %     \end{tabular} &       \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %     \end{tabular} &       \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\
+  %     \end{tabular} &      \begin{tabular}{ l  r }
+  %       cpu idle & 2  \\
+  %       cpu user& 2  \\
+  %       cpu kernel & 6 \\
+  %       free mem & 6 \\
+  %       num packets & 6 \\
+  %       dim sum & 6 \\
+  %       packets/sec & 6 \\       
+  %     \end{tabular} \\
+  %   \end{tabular}
+  % \end{adjustwidth}
+  % \end{table}
     \newpage
+
     \begin{thebibliography}{9}
 
     \bibitem{SNORT}
