@@ -7,9 +7,9 @@
 \usepackage{changepage}
 
 \begin{document}
-    \title{\rmfamily\normalfont\spacedallcaps{Homework for
-        Quantitative Systems Analysis Exam}}
-    \author{\spacedlowsmallcaps{Massimo Nocentini}} \date{\today}
+\title{\rmfamily\normalfont\spacedallcaps{Homework for Quantitative
+    Systems Analysis Exam}} \author{\spacedlowsmallcaps{Massimo
+    Nocentini}\\\spacedlowsmallcaps{ 5422207, Group 1}} \date{\today}
     
     \maketitle
 
@@ -27,15 +27,15 @@
        
     \tableofcontents
    
-    \section*{Introduction}
+    % \section*{Introduction}
 
-    This homework aims to study resources usage respect a collection
-    of user profiles; we're mainly interested on network activities,
-    but we pair it with CPU and memory consumption. In order to
-    complete this work we take it apart, discussing the activity plan,
-    the instrumentation of the system used by different profiles, the
-    plan of experiments and finally data management and analysis of
-    results in the following sections. In the 
+    % This homework aims to study resources usage respect a collection
+    % of user profiles; we're mainly interested on network activities,
+    % but we pair it with CPU and memory consumption. In order to
+    % complete this work we take it apart, discussing the activity plan,
+    % the instrumentation of the system used by different profiles, the
+    % plan of experiments and finally data management and analysis of
+    % results in the following sections. In the 
  
     \newpage
     \section{Analysis Plan}
@@ -320,21 +320,169 @@ sudo snort -l <log-directory>/ -b
 
     \subsection{Execution methodology}
 
-    We repeat each experiment for each user profile for five
+    Given an user profile, we repeat each experiment for five
     consecutive days, ensuring that each repetition happen within time
-    windows described by experiment, even though instant timings can
-    varies among repetitions of the same experiment for the same user
-    profile given two different days. In what follows we refer to days
-    in which experiment repetition happen as \emph{Day one}, \emph{Day
-      two}, \emph{Day three}, \emph{Day four} and \emph{Day five},
+    window as required by experiment description, even though instant
+    timings can varies among repetitions of the same experiment given
+    two different days. In this work we refer to days in which
+    experiment repetitions happen as \emph{Day one}, \emph{Day two},
+    \emph{Day three}, \emph{Day four} and \emph{Day five},
     respectively.
 
     \newpage
     \section{Data management and analysis of results}
     \label{sec:data-management-result-analysis}
-    \lipsum[1]
 
+    In this section we'll describe the software architecture
+    developed, dealing with it in the former part and we give our
+    results interpretation in the latter one.
+
+    \subsection{Software architecture}
+    We developer a quite rich architecture to support our results
+    interpretation. We would like to have an automatic tool that
+    parses Snort log files, builds a comprehensive facts collection
+    and supplies a fancy and flexible interface (programmatically, of
+    course) to plot quantities of interests, exporting automatically
+    in .eps files, and to aggregate measures into a summary, exporting
+    automatically in \TeX tabular files. In the following we provide a
+    brief description of this piece of work.
+
+    \subsubsection{Pharo Smalltalk programming environment and TDD}
+    n
+    We implemented our code in Pharo Smalltalk, an image based
+    programming environment. It allow a natural Test Driven
+    Development style, so we strictly follow it. In what follows we
+    refer to classes we've implemented and are available in the image,
+    assuming the curious reader has set up the enviroment correctly
+    (see \autoref{sec:appendix} for instructions).
+
+    The class \emph{AQSLogFileTest} is the test suite we've created to
+    drive our implementation: it contains test methods that assert on
+    log file parsing, facts collecting, plotting and summary
+    generation.
+
+    \subsubsection{Snort log files parsing}
+
+    To set the stage we need to handle binary Snort log file in a more
+    comfortable way. We saved original Snort binary log files in the
+    file system, organizing them hierarchically, by experiment number,
+    user profile and day number, in the given order. Hence we process
+    every log file by performing a depth-first visit, applying to each
+    one of them a bash script which does some clean work, especially
+    removing empty and separating lines, joining the rest toward the
+    creation of new log file which has exactly one line per packet;
+    here we report a chunk of
+    the latter log (intentionally breaking page boundaries): 
+    \begin{adjustwidth}{-4cm}{}
+\begin{verbatim}
+07/01-07:41:07.220098 92.104.129.98:6881 -> 192.168.0.4:51413 UDP TTL:45 TOS:0x0 ID:0 IpLen:20 DgmLen:129 DF
+07/01-07:41:07.220190 192.168.0.4 -> 92.104.129.98 ICMP TTL:64 TOS:0xC0 ID:48370 IpLen:20 DgmLen:157 Type:3  Code:3  DESTINATION UNREACHABLE: PORT UNREACHABLE
+07/01-07:41:07.277850 98.232.94.206:59805 -> 192.168.0.4:51413 TCP TTL:112 TOS:0x0 ID:14283 IpLen:20 DgmLen:48 DF ******S* Seq: 0x709F7FB  Ack: 0x0  Win: 0x2000  TcpLen: 28
+07/01-07:41:07.277898 192.168.0.4:51413 -> 98.232.94.206:59805 TCP TTL:64 TOS:0x0 ID:41997 IpLen:20 DgmLen:40 DF ***A*R** Seq: 0x0  Ack: 0x709F7FC  Win: 0x0  TcpLen: 20
+07/01-07:41:07.528356 91.65.105.145:51413 -> 192.168.0.4:51413 UDP TTL:47 TOS:0x0 ID:32138 IpLen:20 DgmLen:58 D
+\end{verbatim}
+    \end{adjustwidth}
+
+    Performing this cleaning allow to handle files much shorter than
+    the original ones produced by the ``read'' Snort feature: for
+    example, one of our files shrinks from about 70000 to 14000 lines.
+
+    \subsubsection{Building facts collection}
+
+    Following \cite{bondavalli}, we introduced the concept of
+    \emph{fact}, which collect all relevant information about events
+    we care about. We do not use a database backend, preferring live
+    objects to talk with. This allow an interactive session where the
+    user can query the facts collection using all the pretty stuff
+    supplied by Pharo Smalltalk to inspect and explore them, for
+    example it is possible to filter facts using a predicate and use
+    that selection programmatically. This methodology has the drawback
+    to be slower respect a relational database engine, while gaining
+    in flexibility.
+
+    \subsubsection{Selecting facts toward actions}
+    
+    We use the facts collection to define a selection over it,
+    reifying this concept in its own dedicate class
+    \emph{FactsSelection}. This allow us to use the selection as a
+    ``trampoline'' object \cite{weiher-ducasse} toward actions, from
+    our point of view, plotting and summarizing. This allows
+    extensibility since if a developer would like to use facts for a
+    different goal, let say drawing histograms, it is required only to
+    implement an action object able to receive a selection of
+    facts. The two action classes relative to plotting and summarizing
+    are \emph{FactsPlotter} and \emph{FactsSummary}, respectively. 
+
+    It is possible to create a selection of fact providing a user
+    profile, an experiment number and a day, additionally to an
+    arbitrary predicate.
+
+    \subsubsection{Plotting a facts selection}
+
+    We supply one implementation for plotting a facts selection, with
+    two main features: the one allow to scatter a quantity of interest
+    agains time instant, the other allow to partition a quantity by
+    another fact property, associating a different formatting for each
+    group. We've used the former to scatter the CPU usage, while the
+    latter to partition packet length by protocol packet membership,
+    just for an use case. It is interesting to observe that both
+    quantity selection both partitioning is implemented via an high
+    order system, that is the user can select \emph{any} quantity
+    using a declarative style, nothing is hardcoded for the problem at
+    hand. From another point of view, if another Snort log file is
+    under study, with different properties than ours, it is possible
+    to use this plotting mechanisms just plugging in a block that
+    selects the quantity it is required to scatter (of course, the
+    data series format is customizable too). As plotting backend we
+    lie on \emph{GnuPlot} \cite{gnuplot}.
+
+    \subsubsection{Summarizing a facts selection}
+
+    We supply one implementation for summarizing a facts selection,
+    with a main feature to aggregate facts along some dimensions, an
+    example can be see in tables reported in the following results
+    section. Here the main issue is, given an user profile, build a
+    matrix which has days on rows and experiments on columns. For each
+    fact we assign it to a matrix cell, in order to post process each
+    cell depending on its data content. If some data are available,
+    the job is done by class \emph{DatafulCellStatus}, which interpret
+    facts measures to supply the required aggregated values.
+
+    As the case for plotting, if a user would like to aggregate
+    respect different dimensions, it is required to specialize
+    \emph{DatafulCellStatus} to have an output formatted as \TeX
+    tabular environment.
+
+    \subsubsection{Putting it all together}
+    
+    To make a long business short, we've implemented a set of classes
+    whose responsibility is to interpret a log file, providing
+    extension points to make a facts selection and using it for
+    plotting against quantities of interest, which can seen as a whole
+    or as a partition; or for summarizing producing a \TeX file
+    containing a tabular environment region ready to be used as input
+    file in an bigger document (as we're doing while writing this
+    article).
+    
+    \newpage
+
+    \subsection{Results commentary}
+
+    \subsubsection{Landlady user profile}
+    
+
+    \subsubsection{Computer scientist user profile}
+
+
+    \subsubsection{FSF supporter user profile}
+
+    
+    \subsubsection{Summary tables}
     \input{summary-Landlady.tex}
+    \input{summary-ComputerScientist.tex}    
+    \input{summary-FSFSupporter.tex}
+    
+
 
 
   %   \begin{table}
@@ -531,6 +679,40 @@ sudo snort -l <log-directory>/ -b
   % \end{table}
     \newpage
 
+    \section{Appendix}
+    \label{sec:appendix}
+
+    \subsection{License}
+\begin{verbatim}
+The MIT License (MIT)
+
+Copyright (c) 2014 Massimo Nocentini
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+\end{verbatim}
+
+    \subsection{Project hosting}
+
+    \subsection{Environment setup}
+
+    
+
     \begin{thebibliography}{9}
 
     \bibitem{SNORT}
@@ -548,6 +730,19 @@ sudo snort -l <log-directory>/ -b
     \bibitem{sed}
       Free Software Foundation,
       \url{http://www.freebsd.org/cgi/man.cgi?query=sed}
+
+    \bibitem{gnuplot} Free Software
+      Foundation,\url{http://www.gnuplot.info/}
+
+    \bibitem{bondavalli} Andrea Bondavalli, Analisi quantitativa dei
+      sistemi critici, March 2011, Progetto Leonardo, Esculapio
+      Editore
+
+    \bibitem{weiher-ducasse} Marcel Weiher and Stephane Ducasse,
+      Higher Order Messaging, Dynamic Languages Symposium (DLS) '05,
+      October 18, 2005, San Diego, CA, USA
+
+
     \end{thebibliography}
     % % bib stuff
     % \nocite{*}
