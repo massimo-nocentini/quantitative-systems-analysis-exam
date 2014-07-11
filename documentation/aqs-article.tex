@@ -964,9 +964,61 @@ sudo snort -l <log-directory>/ -b
 
     \subsubsection{On FSF supporter user profile}
 
-    
-    \subsubsection{Summary tables}
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-FSFSupporter-ExperimentTwo-DayThree-quantity-only-packets-with-payload-comprehensive-length-by-protocol.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment
+        three: histogram about CPU consumption agains bins of length 5
+        seconds each.}
+      \label{fig:fsf-supporter-ubuntu-scatter}
+    \end{figure}
 
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-FSFSupporter-ExperimentThree-DayFour-quantity-only-packets-with-payload-comprehensive-length-by-protocol.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment
+        three: histogram about CPU consumption agains bins of length 5
+        seconds each.}
+      \label{fig:fsf-supporter-xubuntu-scatter}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-FSFSupporter-ExperimentOne-DayFive-aggregated-average-of-comprehensive-length-by-timestamp-interval.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment
+        three: histogram about CPU consumption agains bins of length 5
+        seconds each.}
+      \label{fig:fsf-supporter-kubuntu-histogram}
+    \end{figure}
+
+    \subsubsection*{Repeating experiments issues}
+    
+    Even though experiments had been repetead in the same conditions,
+    for this user profile hadn't been possible to have repeatable
+    experiments. We justify it by the connectionless nature of
+    experiments and we didn't do anything more to have some recurring
+    pattern, all dependends by world wide users' requests.Hence we
+    make a few observation without proceeding by division as did up to
+    now.
+
+    In
+    \autoref{fig:fsf-supporter-ubuntu-scatter}
+    we report the scatter about Ubuntu iso image, against the one in
+    \autoref{fig:fsf-supporter-xubuntu-scatter} relative to Xubuntu iso
+    image: there's a huge traffic difference, the former use both
+    connected and datagram protocol packets, while the latter prefers
+    UDP packets. In \autoref{fig:fsf-supporter-kubuntu-histogram} we
+    report an histogram that aggregate packet lengths in bins of 5
+    seconds each. According \autoref{fig:FSF-supporter-user-profile},
+    Ubuntu image has been the most requested one.
+
+    \subsubsection*{Measures' quality}
+    Quality of traffic analysis is again accurate, producing Snort
+    binary log files about 20 MB each for 2' of observation. An
+    interesting aspect not considered in this analysis should be the
+    number of disk accesses for fetching data. We discard measures
+    about CPU consumptions since not relevant for the experiments at
+    hand, nothing stress the CPU by an interesting computation effort.
 
     \begin{table}
       \begin{adjustwidth}{-2cm}{}
@@ -977,204 +1029,6 @@ sudo snort -l <log-directory>/ -b
     \end{table}
 
 
-
-
-    
-
-
-
-  %   \begin{table}
-  %     \begin{adjustwidth}{-2cm}{}
-  %     \centering
-  %     \begin{tabular}{l| l| l | l| l }
-  %       & Experiment 1& Experiment 2& Experiment 3& Experiment 4\\
-  %       \hline
-  %     Day 1 &
-  %     \begin{tabular}{ l  r }
-  %       cpu idle & 96.1 \% \\
-  %       cpu user& 2\%  \\
-  %       cpu kernel & 1.1 \% \\
-  %       free mem & 4.3 GB \\
-  %       \hline
-  %       num packets & 9283 \\
-  %       dim sum & 1.5 MB \\
-  %       packets/sec & 6 \\
-  %       interlap & 6 secs \\
-  %       UDP & 6 \\
-  %       TCP msgs & 6\% \\
-  %       dim/msg & 146.3 Byte \\
-  %     \end{tabular} &       \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %     \end{tabular} &       \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %     \end{tabular} &      \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\       
-  %     \end{tabular} \\
-  %       \hline
-  %     Day 1 &
-  %     \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %       interlap & 6 \\
-  %     \end{tabular} &       \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %     \end{tabular} &       \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %     \end{tabular} &      \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\       
-  %     \end{tabular} \\
-  %       \hline
-  %     Day 1 &
-  %     \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %       interlap & 6 \\
-  %     \end{tabular} &       \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %     \end{tabular} &       \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %     \end{tabular} &      \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\       
-  %     \end{tabular} \\
-  %       \hline
-  %     Day 1 &
-  %     \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %       interlap & 6 \\
-  %     \end{tabular} &       \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %     \end{tabular} &       \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %     \end{tabular} &      \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\       
-  %     \end{tabular} \\
-  %       \hline
-  %     Day 1 &
-  %     \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %       interlap & 6 \\
-  %     \end{tabular} &       \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %     \end{tabular} &       \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\
-  %     \end{tabular} &      \begin{tabular}{ l  r }
-  %       cpu idle & 2  \\
-  %       cpu user& 2  \\
-  %       cpu kernel & 6 \\
-  %       free mem & 6 \\
-  %       num packets & 6 \\
-  %       dim sum & 6 \\
-  %       packets/sec & 6 \\       
-  %     \end{tabular} \\
-  %   \end{tabular}
-  % \end{adjustwidth}
-  % \end{table}
     \newpage
 
     \section{Appendix}
@@ -1206,10 +1060,23 @@ SOFTWARE.
 \end{verbatim}
 
     \subsection{Project hosting}
-
-    \subsection{Environment setup}
-
-    
+    All the content of this project has been versioned using
+    \emph{Git}, versioning everything in:
+    \url{https://github.com/massimo-nocentini/quantitative-systems-analysis-exam}. Actually,
+    the complete folder with Snort log cleaned files and the folder
+    containing eps files aren't under version control since too large,
+    it can be requested to the author dropping a mail to
+    \url{massimo.nocentini@gmail.com}. All code developed in
+    \emph{Pharo Smalltalk} is freely available at
+    \url{http://smalltalkhub.com/#!/~MassimoNocentini/QuantitativeSystemsAnalysisExam} and can be loaded directly via \emph{Monticello} smalltalk browser with the following message:
+      \begin{adjustwidth}{-2cm}{}
+\begin{verbatim}
+MCHttpRepository
+	location: 'http://smalltalkhub.com/mc/MassimoNocentini/QuantitativeSystemsAnalysisExam/main'
+	user: ''
+	password: ''
+\end{verbatim}
+      \end{adjustwidth}    
 
     \begin{thebibliography}{9}
 
@@ -1242,10 +1109,5 @@ SOFTWARE.
 
 
     \end{thebibliography}
-    % % bib stuff
-    % \nocite{*}
-    % \addtocontents{toc}{\protect\vspace{\beforebibskip}}
-    % \addcontentsline{toc}{section}{\refname}    
-    % \bibliographystyle{plain}
-    % \bibliography{../Bibliography}
+
 \end{document}
