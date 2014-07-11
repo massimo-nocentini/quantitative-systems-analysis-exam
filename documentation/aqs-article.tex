@@ -5,6 +5,7 @@
 \usepackage[nochapters]{classicthesis} % nochapters
 % \usepackage[showframe=true]{geometry}  
 \usepackage{changepage}
+\usepackage{graphicx}
 
 \begin{document}
 \title{\rmfamily\normalfont\spacedallcaps{Homework for Quantitative
@@ -256,29 +257,29 @@ sudo snort -l <log-directory>/ -b
       and do a quick check for new messages; we assume that he reads
       at least one message. Then, keeping the browser running, he
       writes a draft of at least 400 words using the Emacs text
-      editor, compiles it using \TeX three times. Then he writes one
+      editor, compiles it using \TeX two times. Then he writes one
       message to his advisor with the compiled draft as
       attachment. Finally he logs out from Google web mail interface.
-    \item[experiment two] In the late morning, the computer scientist
-      do some hacking on his Pharo Smalltalk system, executing an
-      intensive fluid dynamics analysis for a gas network. This
-      analysis is repeated three times, each of one is 20 seconds
-      longer. Waiting for analysis results, he talks with his
-      colleague using Google Hangout directly from his GMail web mail
-      interface, sending and receiving at least 10 short phrases. Here
-      by ``short phrase'' we mean a message with at most 10 words.
+    \item[experiment two] At noon, the computer scientist do some
+      hacking on his Pharo Smalltalk system, executing an intensive
+      fluid dynamics analysis for a gas network. This analysis is
+      repeated three times, each of one is 30 seconds longer. Waiting
+      for analysis results, he talks with his colleague using Google
+      Hangout directly from his Google web mail interface, sending and
+      receiving at least 10 short phrases. Here by ``short phrase'' we
+      mean a message with at most 10 words and we also assume that the
+      login had already succeeded before starting the registering
+      tools.
     \item[experiment three] In the afternoon, the computer scientist
-      discuss the fluid analysis result obtained in the morning in a
-      joint work through a video call using Google Hangout. The call
-      has duration about one minute, during which he keeps the Pharo
-      Smalltalk image running but he do not apply any change.
-    \item[experiment four] In the evening, the computer scientist
-      reviews the draft written in the early morning, using the Emacs
-      text editor to skim through it and applies a spell checker. He
-      at least recompile the document two times and after that he
-      dispatch three mails from his Google web mail interface to his
-      close friends. We assume that such minor modifications do not
-      change significantly the compiled file dimension.
+      discuss the fluid analysis results obtained previously in a
+      joint work through a video call using Google Hangout, via web
+      interface using the Mozilla Firefox browser. While the
+      conversation takes place the computer scientist performs one
+      more time the fluid dynamics analysis. Here we assume that no
+      textual instantaneous messages are exchanged, that the
+      conversation is about 1'30'' longer and that the login had
+      already succeeded and the call is already running before
+      starting the registering tools.
     \end{description}
 
     \newpage
@@ -458,29 +459,325 @@ sudo snort -l <log-directory>/ -b
     To make a long business short, we've implemented a set of classes
     whose responsibility is to interpret a log file, providing
     extension points to make a facts selection and using it for
-    plotting against quantities of interest, which can seen as a whole
-    or as a partition; or for summarizing producing a \TeX file
-    containing a tabular environment region ready to be used as input
-    file in an bigger document (as we're doing while writing this
-    article).
+    plotting against quantities of interest, which can be seen as a
+    whole or as a partition; or for summarizing measures producing a
+    \TeX file containing a tabular environment region, ready to be
+    used as input file in an bigger document (as we're doing while
+    writing this article). All the implementation abstracts from the
+    problem at hand, being flexible to handle log files produced by
+    different log producers.
     
     \newpage
 
     \subsection{Results commentary}
 
-    \subsubsection{Landlady user profile}
+    In this section we'll report and explain obtained results. In
+    order to do this, for each user profile we'll comment each
+    experiment, reporting some scatters of interest (focusing on
+    network traffic in particular) and histograms to show and
+    interpreting a relation between what really happened with what it
+    was supposed to be. 
+
+    To not overwhelming the presentation, for each experiment we
+    report first a scatter with the complete network traffic,
+    immediately followed by a refined scatter filtering out packets
+    without payload, while rest plots always refers to the latter
+    situation.
+
+    \subsubsection{On Landlady user profile}
+
+    \subsubsection*{Experiment one}
+    In
+    \autoref{fig:landlady-user-profile-comprehensive-length-scatter}
+    we report the scatter of the complete traffic, attaching
+    comprehensive packet length on ordinates, against capturing
+    timestamps on abscissa. We observe some background noise during
+    all the registering time window, and we map the first spike to
+    GMail web page request, the following traffic to performing login,
+    the successive two spikes to reading two mails and the final one
+    to logout, respectively. We report in
+    \autoref{fig:landlady-user-profile-comprehensive-length-scatter-filtering-on-payload}
+    a ``cleaned'' version of the same quantity, filtering out packets
+    such that do not contain payload. In
+    \autoref{fig:landlady-user-profile-exp-one-count-histogram} we
+    aggregate traffic information in a histogram, counting exchanged
+    packets per second, where it is possible to recognize the same
+    pattern described for the scatter.
+
+    Traffic is ruled by a connection oriented protocol, due to the
+    strict majority of TCP packets as reported in
+    \autoref{fig:landlady-user-profile-comprehensive-length-by-protocol},
+    and is quite balanced respect packet direction as reported in
+    \autoref{fig:landlady-user-profile-comprehensive-length-by-direction}.
     
+    We do not report plots about CPU and memory usage since they are
+    quite flat and do not catch significative events corresponding to
+    user profile actions.
 
-    \subsubsection{Computer scientist user profile}
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentOne-DayTwo-quantity-comprehensive-length.eps}
+      \caption{\emph{Landlady} user profile, experiment one:
+        scatter of comprehensive length against captured timestamp in
+        nanoseconds}
+      \label{fig:landlady-user-profile-comprehensive-length-scatter}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentOne-DayTwo-quantity-only-packets-with-payload-comprehensive-length.eps}
+      \caption{\emph{Landlady} user profile, experiment one: scatter
+        of comprehensive length, filtering out packets without
+        payload}
+      \label{fig:landlady-user-profile-comprehensive-length-scatter-filtering-on-payload}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentOne-DayThree-aggregated-count-by-timestamp-interval.eps}
+      \caption{\emph{Landlady} user profile, experiment one: histogram
+        reporting number of packets in bins with length equals to 1
+        second.}
+      \label{fig:landlady-user-profile-exp-one-count-histogram}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentOne-DayTwo-quantity-only-packets-with-payload-comprehensive-length-by-protocol.eps}
+      \caption{\emph{Landlady} user profile, experiment one: scatter
+        of comprehensive length, filtering out packets without payload
+        and partitioning by protocol}
+      \label{fig:landlady-user-profile-comprehensive-length-by-protocol}
+    \end{figure}
 
 
-    \subsubsection{FSF supporter user profile}
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentOne-DayTwo-quantity-only-packets-with-payload-comprehensive-length-by-direction.eps}
+      \caption{\emph{Landlady} user profile, experiment one: scatter
+        of comprehensive length, filtering out packets without payload
+        and partitioning by traffic direction}
+      \label{fig:landlady-user-profile-comprehensive-length-by-direction}
+    \end{figure}
+
+
+
+    \subsubsection*{Experiment two}
+    In
+    \autoref{fig:landlady-user-profile-exp-two-comprehensive-length-scatter}
+    and
+    \autoref{fig:landlady-user-profile-exp-two-comprehensive-length-scatter-filtering-on-payload}
+    we report the scatter of network traffic produced in experiment
+    two, the former covers all packets instead the latter filter out
+    packets without a payload. We can observe the presence of
+    background noise due to sync and ack messages, but we're not able
+    to deduce which spike correspond to which user profile action.  We
+    suppose the initial traffic is due to YouTube video streaming,
+    which produce many packets in the first part of the registering
+    time window, while isn't possible to see the sending of three
+    greetings from the scatter. On the other hand, histogram reported
+    in \autoref{fig:landlady-user-profile-exp-two-count-histogram},
+    allow to see three spikes but it isn't possible to associate them
+    to packets for greetings or to video streaming since they appears
+    to be too regular. Another interpretation is to associate greeting
+    packets to three little spikes, each preceding a bigger one.
+
+    This traffic is still connection oriented as shown in
+    \autoref{fig:landlady-user-profile-exp-two-comprehensive-length-by-protocol}
+    and quite balanced from route direction point of view as shown in
+    \autoref{fig:landlady-user-profile-exp-two-comprehensive-length-by-direction}. In
+    particular is more connection oriented than traffic produced by
+    \emph{experiment one}, have a look at TCP percentages reported in
+    the second column of \autoref{fig:landlady-user-profile};
+    moreover, it is surprising to observe a similar number of packets
+    per second (landlady checks mail very quickly).
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentTwo-DayThree-quantity-all-packets-comprehensive-length.eps}
+      \caption{\emph{Landlady} user profile, experiment two: scatter
+        of comprehensive length against captured timestamp in
+        nanoseconds}
+      \label{fig:landlady-user-profile-exp-two-comprehensive-length-scatter}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentTwo-DayThree-quantity-only-packets-with-payload-comprehensive-length.eps}
+      \caption{\emph{Landlady} user profile, experiment two: scatter
+        of comprehensive length against captured timestamp in
+        nanoseconds, filtering out packets without payload}
+      \label{fig:landlady-user-profile-exp-two-comprehensive-length-scatter-filtering-on-payload}
+    \end{figure}
+    
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentTwo-DayFive-aggregated-count-by-timestamp-interval.eps}
+      \caption{\emph{Landlady} user profile, experiment two: histogram
+        reporting number of packets in bins with length equals to 1
+        second.}
+      \label{fig:landlady-user-profile-exp-two-count-histogram}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentTwo-DayThree-quantity-only-packets-with-payload-comprehensive-length-by-protocol.eps}
+      \caption{\emph{Landlady} user profile, experiment two: scatter
+        of comprehensive length, filtering out packets without payload
+        and partitioning by protocol}
+      \label{fig:landlady-user-profile-exp-two-comprehensive-length-by-protocol}
+    \end{figure}
+
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentTwo-DayThree-quantity-only-packets-with-payload-comprehensive-length-by-direction.eps}
+      \caption{\emph{Landlady} user profile, experiment two: scatter
+        of comprehensive length, filtering out packets without payload
+        and partitioning by traffic direction}
+      \label{fig:landlady-user-profile-exp-two-comprehensive-length-by-direction}
+    \end{figure}
+
+
+
+    \subsubsection*{Experiment three}
+    In
+    \autoref{fig:landlady-user-profile-exp-three-comprehensive-length-scatter}
+    and
+    \autoref{fig:landlady-user-profile-exp-three-comprehensive-length-scatter-filtering-on-payload}
+    we report the scatter of network traffic produced in experiment
+    three, the former covers all packets instead the latter filter out
+    packets without a payload. Its quite clear the association with
+    user actions: the first intense spike is for GMail login, then
+    there are two ``blocks'' with sparse traffic, each corresponding
+    to one draft preparation and the final spike is one mail
+    sending. It is quite surprinsing that packet distribution is quite
+    uniform after the initial login, as histogram reports in
+    \autoref{fig:landlady-user-profile-exp-three-count-histogram}
+    using bins of length 5 seconds each.
+
+    This traffic is again connection oriented as shown in
+    \autoref{fig:landlady-user-profile-exp-three-comprehensive-length-by-protocol}
+    and length per packet in bytes is lower than those registered for
+    \emph{experiment one} and \emph{two} and the number of packets per
+    second is remarkably smaller due to a different sequence of
+    actions, as reported in the third column of
+    \autoref{fig:landlady-user-profile}.
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentThree-DayThree-quantity-all-packets-comprehensive-length.eps}
+      \caption{\emph{Landlady} user profile, experiment three: scatter
+        of comprehensive length against captured timestamp in
+        nanoseconds}
+      \label{fig:landlady-user-profile-exp-three-comprehensive-length-scatter}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentThree-DayThree-quantity-only-packets-with-payload-comprehensive-length.eps}
+      \caption{\emph{Landlady} user profile, experiment three: scatter
+        of comprehensive length against captured timestamp in
+        nanoseconds, filtering out packets without payload}
+      \label{fig:landlady-user-profile-exp-three-comprehensive-length-scatter-filtering-on-payload}
+    \end{figure}
+    
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentThree-DayFive-aggregated-count-by-timestamp-interval.eps}
+      \caption{\emph{Landlady} user profile, experiment three: histogram
+        reporting number of packets in bins with length equals to 5
+        seconds each.}
+      \label{fig:landlady-user-profile-exp-three-count-histogram}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentThree-DayThree-quantity-only-packets-with-payload-comprehensive-length-by-protocol.eps}
+      \caption{\emph{Landlady} user profile, experiment three: scatter
+        of comprehensive length, filtering out packets without payload
+        and partitioning by protocol}
+      \label{fig:landlady-user-profile-exp-three-comprehensive-length-by-protocol}
+    \end{figure}
+
+
+    % \begin{figure}
+    %   \centering
+    %   \includegraphics{eps/plot-Landlady-ExperimentThree-DayThree-quantity-only-packets-with-payload-comprehensive-length-by-direction.eps}
+    %   \caption{\emph{Landlady} user profile, experiment three: scatter
+    %     of comprehensive length, filtering out packets without payload
+    %     and partitioning by traffic direction}
+    %   \label{fig:landlady-user-profile-exp-three-comprehensive-length-by-direction}
+    % \end{figure}
+
+    \subsubsection*{Repeating experiments issues}
+    
+    We observe that experiments repeats with the same patterns, as
+    proved by scatters, both in traffic distribution and by protocol
+    partitioning. Looking at \autoref{fig:landlady-user-profile} we
+    observe concordance among averaged quantities without any
+    remarkable outsider. An odd case for \emph{experiment three} is
+    reported in
+    \autoref{fig:landlady-user-profile-exp-three-count-histogram-odd-case},
+    where we observe a quantity of exchanged packets not present in
+    other experiment's repetitions.
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-Landlady-ExperimentThree-DayTwo-aggregated-count-by-timestamp-interval.eps}
+      \caption{\emph{Landlady} user profile: histogram reporting a bad
+        case, with a spike not present in all the remaining histograms
+        about experiment three.}
+      \label{fig:landlady-user-profile-exp-three-count-histogram-odd-case}
+    \end{figure}
+
+
+
+    \subsubsection*{Measures' quality}
+    Network traffic is quite accurate, as in scatters we've to resort
+    to nanoseconds in order to see events. On the other hand, CPU and
+    memory consumption didn't have the same accuracy, since
+    \emph{vmstat} drops lines with a maximum rate of 1 second: this
+    for \emph{experiment one} is useless since the entire time window
+    duration is lower than a minute.
+  
+
+    \begin{table}
+      \begin{adjustwidth}{-2cm}{}
+        \input{summary-Landlady.tex}
+      \end{adjustwidth}
+      \caption{Summary table for \emph{landlady} user profile}
+      \label{fig:landlady-user-profile}
+    \end{table}
+
+
+    \subsubsection{On Computer scientist user profile}
+
+
+    \subsubsection{On FSF supporter user profile}
 
     
     \subsubsection{Summary tables}
-    \input{summary-Landlady.tex}
-    \input{summary-ComputerScientist.tex}    
-    \input{summary-FSFSupporter.tex}
+
+    \begin{table}
+      \begin{adjustwidth}{-2cm}{}
+        \input{summary-ComputerScientist.tex}    
+      \end{adjustwidth}
+      \caption{Summary table for \emph{computer scientist} user profile}
+      \label{fig:computer-scientist-user-profile}
+    \end{table}
+
+    \begin{table}
+      \begin{adjustwidth}{-2cm}{}
+        \input{summary-FSFSupporter.tex}
+      \end{adjustwidth}
+      \caption{Summary table for \emph{FSF supporter} user profile}
+      \label{fig:FSF-supporter-user-profile}
+    \end{table}
+
+
+
+
     
 
 
