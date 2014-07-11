@@ -849,8 +849,11 @@ sudo snort -l <log-directory>/ -b
     Google web mail interface, the majority of it belongs again to
     TCP.
 
-
-
+    Looking at \autoref{fig:computer-scientist-user-profile}, we prove
+    that both peer played according laws, since the percentage of
+    incoming packets equals that of outgoing ones. Due to textual
+    instant message exchanging only, the number of packets per seconds
+    is very small, about 10 in average.
 
     \begin{figure}
       \centering
@@ -879,31 +882,76 @@ sudo snort -l <log-directory>/ -b
       \label{fig:computer-scientist-user-profile-experiment-two-aggregate-cpu-idle-percentage}
     \end{figure}
 
-    Looking at \autoref{fig:computer-scientist-user-profile}, we prove
-    that both peer played according laws, since the percentage of
-    incoming packets equals that of outgoing ones. Due to textual
-    instant message exchanging only, the number of packets per seconds
-    is very small, about 10 in average.
+    \subsubsection*{Experiment three}
 
+    In
+    \autoref{fig:computer-scientist-user-profile-experiment-three-comprehensive-length-scatter-filtering-on-payload}
+    we report the scatter of network traffic, filtering payloaded
+    packets: we see two ``partitions'', a lower one possibly related
+    to control packets, and a higher one possibly related to video
+    frames. As we would expect,
+    \autoref{fig:computer-scientist-user-profile} confirm that here
+    the traffic is datagram oriented, with a small percentage of TCP
+    packets. In
+    \autoref{fig:computer-scientist-user-profile-exp-three-count-histogram}
+    we report the histograms of packets per time unit and we cannot
+    extract a pattern from it: it is possible only to associate a
+    period where the traffic is quite stable to the running of fluid
+    dynamics simulation, as shown in
+    \autoref{fig:computer-scientist-user-profile-experiment-three-aggregate-cpu-idle-percentage}
+    too.
 
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-ComputerScientist-ExperimentThree-DayFive-quantity-only-packets-with-payload-comprehensive-length.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment
+        three: scatter of comprehensive length, filtering out packets
+        without payload}
+      \label{fig:computer-scientist-user-profile-experiment-three-comprehensive-length-scatter-filtering-on-payload}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-ComputerScientist-ExperimentThree-DayFive-aggregated-count-by-timestamp-interval.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment three: histogram
+        reporting number of packets in bins with length equals to 1
+        second.}
+      \label{fig:computer-scientist-user-profile-exp-three-count-histogram}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-ComputerScientist-ExperimentThree-DayTwo-aggregated-average-of-cpu-idle-percentage-time-by-timestamp-interval.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment
+        three: histogram about CPU consumption agains bins of length 5
+        seconds each.}
+      \label{fig:computer-scientist-user-profile-experiment-three-aggregate-cpu-idle-percentage}
+    \end{figure}
 
     \subsubsection*{Repeating experiments issues}
     
-    We observe that experiments repeats with the same patterns, as
-    proved by scatters, both in traffic distribution and by protocol
-    partitioning. Looking at \autoref{fig:computer-scientist-user-profile} we
-    observe concordance among averaged quantities without any
-    remarkable outsider. 
+    We observe that \emph{experiments one} and \emph{two} repeats with
+    the same patterns both in traffic distribution and by protocol
+    partitioning. Also CPU consumption seems to repeat, although with
+    more variance. Looking at
+    \autoref{fig:computer-scientist-user-profile} we observe
+    concordance among averaged quantities without any remarkable
+    outsider. It is useful to observe that for \emph{experiment
+      three}, even though quantities repeat, the patterns of traffic
+    network relative to different days behaves like independent random
+    variables, it cannot be possible to extract common aspects from
+    those. We try to explain this be the non repeatable nature of
+    movements by peers in the video call, assuming that both camera
+    never catch a fix image.
 
 
     \subsubsection*{Measures' quality}
-    Network traffic is quite accurate, as in scatters we've to resort
-    to nanoseconds in order to see events. On the other hand, CPU and
-    memory consumption didn't have the same accuracy, since
-    \emph{vmstat} drops lines with a maximum rate of 1 second: this
-    for \emph{experiment one} is useless since the entire time window
-    duration is lower than a minute.
-  
+    CPU consumption, always subject to vmstat maximum rate of 1
+    second, has an acceptable quality since the registering time
+    window is quite large, this allow to analyze it while it cannot be
+    case for \emph{experiment one} for \emph{landlady} user profile,
+    which has a smaller time window.
+
     \begin{table}
       \begin{adjustwidth}{-2cm}{}
         \input{summary-ComputerScientist.tex}    
@@ -912,7 +960,8 @@ sudo snort -l <log-directory>/ -b
       \label{fig:computer-scientist-user-profile}
     \end{table}
 
-    
+    \newpage
+
     \subsubsection{On FSF supporter user profile}
 
     
