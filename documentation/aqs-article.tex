@@ -750,15 +750,160 @@ sudo snort -l <log-directory>/ -b
       \label{fig:landlady-user-profile}
     \end{table}
 
+    \newpage
 
     \subsubsection{On Computer scientist user profile}
-
-
-    \subsubsection{On FSF supporter user profile}
-
+    For this profile we do not report many plots about network
+    traffic, instead we move focus on CPU consumption in order to take
+    into account the programming activity and Google Hangout video
+    call. The complete set of plots is however available in the
+    distributed package.
     
-    \subsubsection{Summary tables}
+    \subsubsection*{Experiment one}
+    In
+    \autoref{fig:computer-scientist-user-profile-comprehensive-length-scatter-filtering-on-payload}
+    we report the scatter of the complete traffic after removing
+    background noise filtering protocol control messages: we map the
+    first spike to GMail web page request, the following traffic to
+    performing login, two thin spikes to reading two mails and the
+    final one to attaching the compiled draft and sending mail,
+    respectively.  In
+    \autoref{fig:computer-scientist-user-profile-exp-one-count-histogram}
+    we aggregate traffic information in a histogram, counting
+    exchanged packets per second, where it is possible to recognize
+    the same pattern described for the scatter: poor network activity.
 
+    Traffic is ruled by a connection oriented protocol, due to the
+    strict majority of TCP packets as reported in
+    \autoref{fig:computer-scientist-user-profile-comprehensive-length-by-protocol},
+    this confirm the fact obtained from \emph{experiment one} for
+    \emph{landlady} profile that Google web mail is totally connection
+    based, as we would expect.
+    
+    \autoref{fig:computer-scientist-user-profile-aggregate-cpu-idle-percentage}
+    shows the two \TeX compilations, reporting two gaps of CPU
+    \emph{idle} percentage in the first half of histogram.
+
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-ComputerScientist-ExperimentOne-DayTwo-quantity-only-packets-with-payload-comprehensive-length.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment one: scatter
+        of comprehensive length, filtering out packets without
+        payload}
+      \label{fig:computer-scientist-user-profile-comprehensive-length-scatter-filtering-on-payload}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-ComputerScientist-ExperimentOne-DayTwo-aggregated-count-by-timestamp-interval.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment one: histogram
+        reporting number of packets in bins with length equals to 1
+        second.}
+      \label{fig:computer-scientist-user-profile-exp-one-count-histogram}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-ComputerScientist-ExperimentOne-DayTwo-quantity-only-packets-with-payload-comprehensive-length-by-protocol.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment one: scatter
+        of comprehensive length, filtering out packets without payload
+        and partitioning by protocol}
+      \label{fig:computer-scientist-user-profile-comprehensive-length-by-protocol}
+    \end{figure}
+
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-ComputerScientist-ExperimentOne-DayThree-aggregated-average-of-cpu-idle-percentage-time-by-timestamp-interval.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment one:
+        histogram about CPU consumption agains bins of length 5
+        seconds each.}
+      \label{fig:computer-scientist-user-profile-aggregate-cpu-idle-percentage}
+    \end{figure}
+
+
+
+    \subsubsection*{Experiment two}
+
+    For this experiment we leave the plot about comprehensive network
+    traffic, paying attention to some details. In
+    \autoref{fig:computer-scientist-user-profile-experiment-two-comprehensive-length-scatter-filtering-on-payload-partitioned-by-direction}
+    we report a scatter of the traffic of payloaded packets,
+    partitioned by route direction: it is interesting that, since this
+    traffic is generated only by textual instant messages, the
+    incoming packets have a smaller length than outgoing packets,
+    always respecting the assumption that both peers sent at most 10
+    words in each message.
+
+    Another interesting comparison arise by
+    \autoref{fig:computer-scientist-user-profile-exp-two-count-histogram}
+    and
+    \autoref{fig:computer-scientist-user-profile-experiment-two-aggregate-cpu-idle-percentage}:
+    those two histograms seems to mirror each other, in the sense that
+    when there is network activity the fluid dynamic simulation is
+    running and, on the contrary, when the simulation is suspended, no
+    network traffic is present.
+
+    We do not report the scatter partitioned by protocol since, using
+    Google web mail interface, the majority of it belongs again to
+    TCP.
+
+
+
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-ComputerScientist-ExperimentTwo-DayFive-quantity-only-packets-with-payload-comprehensive-length-by-direction.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment two:
+        scatter of comprehensive length, filtering out packets without
+        payload and partitioning by route direction}
+      \label{fig:computer-scientist-user-profile-experiment-two-comprehensive-length-scatter-filtering-on-payload-partitioned-by-direction}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-ComputerScientist-ExperimentTwo-DayFive-aggregated-count-by-timestamp-interval.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment two: histogram
+        reporting number of packets in bins with length equals to 1
+        second.}
+      \label{fig:computer-scientist-user-profile-exp-two-count-histogram}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics{eps/plot-ComputerScientist-ExperimentTwo-DayFive-aggregated-average-of-cpu-idle-percentage-time-by-timestamp-interval.eps}
+      \caption{\emph{ComputerScientist} user profile, experiment two:
+        histogram about CPU consumption agains bins of length 5
+        seconds each.}
+      \label{fig:computer-scientist-user-profile-experiment-two-aggregate-cpu-idle-percentage}
+    \end{figure}
+
+    Looking at \autoref{fig:computer-scientist-user-profile}, we prove
+    that both peer played according laws, since the percentage of
+    incoming packets equals that of outgoing ones. Due to textual
+    instant message exchanging only, the number of packets per seconds
+    is very small, about 10 in average.
+
+
+
+    \subsubsection*{Repeating experiments issues}
+    
+    We observe that experiments repeats with the same patterns, as
+    proved by scatters, both in traffic distribution and by protocol
+    partitioning. Looking at \autoref{fig:computer-scientist-user-profile} we
+    observe concordance among averaged quantities without any
+    remarkable outsider. 
+
+
+    \subsubsection*{Measures' quality}
+    Network traffic is quite accurate, as in scatters we've to resort
+    to nanoseconds in order to see events. On the other hand, CPU and
+    memory consumption didn't have the same accuracy, since
+    \emph{vmstat} drops lines with a maximum rate of 1 second: this
+    for \emph{experiment one} is useless since the entire time window
+    duration is lower than a minute.
+  
     \begin{table}
       \begin{adjustwidth}{-2cm}{}
         \input{summary-ComputerScientist.tex}    
@@ -766,6 +911,13 @@ sudo snort -l <log-directory>/ -b
       \caption{Summary table for \emph{computer scientist} user profile}
       \label{fig:computer-scientist-user-profile}
     \end{table}
+
+    
+    \subsubsection{On FSF supporter user profile}
+
+    
+    \subsubsection{Summary tables}
+
 
     \begin{table}
       \begin{adjustwidth}{-2cm}{}
