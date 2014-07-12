@@ -150,6 +150,10 @@ vmstat <sec> -n -S M
     the case for experiments regarding \emph{FSF supporter} user
     profile).
 
+    A ``negative'' aspect of this tool is that has a maximum rate of 1
+    second, hence for some experiment we couldn't use data produced
+    since they arrived too far one from the other.
+
     \subsection{SNORT} 
     To measure network traffic we've used the \emph{SNORT} tool
     \cite{SNORT}, as required by homework assignment. We used
@@ -337,7 +341,14 @@ sudo snort -l <log-directory>/ -b
     same contents, but if a new mail is actually present in the mail
     account, the user can choose to read it or not. This assumption
     introduce a sort of non-determinism, on the other hand increase
-    the truthfulness of the entire work.
+    the truthfulness of the entire work. All network traffic
+    registration about experiment's repetitions has been performed in
+    the same environment, in particular the instrumented system always
+    registers from a domestic LAN network, using the same IP address
+    192.168.0.4. The internet connection used has 20 Mb in download
+    and 1 Mb in upload.
+
+
 
     \newpage
     \section{Data management and analysis of results}
@@ -478,7 +489,10 @@ sudo snort -l <log-directory>/ -b
     used as input file in an bigger document (as we're doing while
     writing this article). All the implementation abstracts from the
     problem at hand, being flexible to handle log files produced by
-    different log producers.
+    different log producers. A final remark, all the data necessary to
+    draw plots has been created using our implementation, as well as
+    the automatic generation of each scatter, histogram and summary
+    table.
     
     \newpage
 
@@ -501,6 +515,10 @@ sudo snort -l <log-directory>/ -b
     repetitions if there exists any \footnote{However, in the Appendix
       we report a Dropbox link to an archive which contains all
       plots.}.
+
+    Summary tables reported at the end of each user profile section,
+    do contain \emph{average} values each corresponding to the
+    reported quantity on the left side of each cell.
 
     \subsubsection{On Landlady user profile}
 
@@ -783,9 +801,10 @@ sudo snort -l <log-directory>/ -b
     we report the scatter of the complete traffic after removing
     background noise filtering protocol control messages: we map the
     first spike to GMail web page request, the following traffic to
-    performing log in, two thin spikes to reading two mails and the
-    final one to attaching the compiled draft and sending mail,
-    respectively.  In
+    performing log in (compare a similar behavior with
+    \autoref{fig:landlady-user-profile-comprehensive-length-scatter-filtering-on-payload}),
+    two thin spikes to reading two mails and the final one to
+    attaching the compiled draft and sending mail, respectively.  In
     \autoref{fig:computer-scientist-user-profile-exp-one-count-histogram}
     we aggregate traffic information in a histogram, counting
     exchanged packets per second, where it is possible to recognize
@@ -958,17 +977,17 @@ sudo snort -l <log-directory>/ -b
       three}, even though quantities repeat, the patterns of traffic
     network relative to different days behaves like independent random
     variables, it cannot be possible to extract common aspects from
-    those. We try to explain this be the non repeatable nature of
-    movements by peers in the video call, assuming that both camera
-    never catch a fix image.
+    those because of the non repeatable nature of movements by peers
+    in the video call, assuming that both camera never catch a
+    ``fixed'' image.
 
 
     \subsubsection*{Measures' quality}
     CPU consumption, always subject to vmstat maximum rate of 1
     second, has an acceptable quality since the registering time
-    window is quite large, this allow to analyze it while it cannot be
-    case for \emph{experiment one} for \emph{landlady} user profile,
-    which has a smaller time window.
+    window is quite large: this allow to analyze it, contrary of what
+    happened in \emph{experiment one} for \emph{landlady} user
+    profile, which has a smaller time window.
 
     \begin{table}
       \begin{adjustwidth}{-2cm}{}
@@ -985,27 +1004,27 @@ sudo snort -l <log-directory>/ -b
     \begin{figure}
       \centering
       \includegraphics{eps/plot-FSFSupporter-ExperimentTwo-DayThree-quantity-only-packets-with-payload-comprehensive-length-by-protocol.eps}
-      \caption{\emph{ComputerScientist} user profile, experiment
-        three: histogram about CPU consumption against bins of length 5
-        seconds each.}
+      \caption{\emph{FSF Supporter} user profile, experiment two:
+        scatter of packet comprehensive length, filtering pay loaded
+        packets and partitioning by network protocol}
       \label{fig:fsf-supporter-ubuntu-scatter}
     \end{figure}
 
     \begin{figure}
       \centering
       \includegraphics{eps/plot-FSFSupporter-ExperimentThree-DayFour-quantity-only-packets-with-payload-comprehensive-length-by-protocol.eps}
-      \caption{\emph{ComputerScientist} user profile, experiment
-        three: histogram about CPU consumption against bins of length 5
-        seconds each.}
+      \caption{\emph{FSF Supporter} user profile, experiment three:
+        scatter of packet comprehensive length, filtering pay loaded
+        packets and partitioning by network protocol}
       \label{fig:fsf-supporter-xubuntu-scatter}
     \end{figure}
 
     \begin{figure}
       \centering
       \includegraphics{eps/plot-FSFSupporter-ExperimentOne-DayFive-aggregated-average-of-comprehensive-length-by-timestamp-interval.eps}
-      \caption{\emph{ComputerScientist} user profile, experiment
-        three: histogram about CPU consumption against bins of length 5
-        seconds each.}
+      \caption{\emph{ComputerScientist} user profile, experiment one:
+        histogram about packet comprehensive length against bins of
+        length 5 seconds each.}
       \label{fig:fsf-supporter-kubuntu-histogram}
     \end{figure}
 
@@ -1014,21 +1033,21 @@ sudo snort -l <log-directory>/ -b
     Even though experiments had been repeated in the same conditions,
     for this user profile hadn't been possible to have repeatable
     experiments. We justify it by the connection less nature of
-    experiments and we didn't do anything more to have some recurring
-    pattern, all dependends by world wide users' requests.Hence we
-    make a few observation without proceeding by division as did up to
-    now.
+    experiments and we couldn't do anything more to have some
+    recurring pattern, all dependends by world wide users'
+    requests. Hence we make a few observation without proceeding by
+    division as did until now.
 
-    In
-    \autoref{fig:fsf-supporter-ubuntu-scatter}
-    we report the scatter about Ubuntu iso image, against the one in
-    \autoref{fig:fsf-supporter-xubuntu-scatter} relative to Xubuntu iso
-    image: there's a huge traffic difference, the former use both
+    In \autoref{fig:fsf-supporter-ubuntu-scatter} we report the
+    scatter about Ubuntu iso image, against the one in
+    \autoref{fig:fsf-supporter-xubuntu-scatter} relative to Xubuntu
+    iso image: there's a huge traffic difference, the former use both
     connected and datagram protocol packets, while the latter prefers
     UDP packets. In \autoref{fig:fsf-supporter-kubuntu-histogram} we
     report an histogram that aggregate packet lengths in bins of 5
-    seconds each. According \autoref{fig:FSF-supporter-user-profile},
-    Ubuntu image has been the most requested one.
+    seconds each for \emph{experiment one}. According
+    \autoref{fig:FSF-supporter-user-profile}, Ubuntu image has been
+    the most requested one.
 
     \subsubsection*{Measures' quality}
     Quality of traffic analysis is again accurate, producing Snort
@@ -1078,24 +1097,52 @@ SOFTWARE.
 \end{verbatim}
 
     \subsection{Project hosting}
-    All the content of this project has been versioned using
-    \emph{Git}, versioning everything in:
-    \url{https://github.com/massimo-nocentini/quantitative-systems-analysis-exam}. Actually,
-    the complete folder with Snort log cleaned files and the folder
-    containing eps files aren't under version control since too large,
-    it can be requested to the author dropping a mail to
-    \url{massimo.nocentini@gmail.com}. All code developed in
-    \emph{Pharo Smalltalk} is freely available at
-    \url{http://smalltalkhub.com/#!/~MassimoNocentini/QuantitativeSystemsAnalysisExam} and can be loaded directly via \emph{Monticello} smalltalk browser with the following message:
-      \begin{adjustwidth}{-2cm}{}
+    All the content of this project has been versioned in a \emph{Git} repository:\\
+    \url{https://github.com/massimo-nocentini/quantitative-systems-analysis-exam}.\\
+
+    Actually, the complete folder with Snort log cleaned files and the
+    folder containing eps files aren't under version control since too
+    large. To make it easier to download them we provide a
+    \emph{Makefile} in \emph{pharo-smalltalk} directory under the
+    project root, with the following rules:
+    \begin{itemize}
+    \item \textbf{download-pharo}, will download a complete Pharo environment, about 20 MB;
+    \item \textbf{run-pharo}, will run the downloaded Pharo image;
+    \item \textbf{download-eps}, will download all eps files necessary
+      for compiling this \TeX document, positioning the folder in the
+      correct position, about 10 MB;
+    \item \textbf{download-snort-logs}, will download the entire snort
+      logs tree with the comprehensive set of eps not reported in this
+      document, about 400 MB;
+    \item \textbf{clean}, will remove all \TeX compilation output file
+      and all files generated by running the Smalltalk test suite for
+      our implementation, ie all plots and data files;
+    \item \textbf{clean-all}, will remove eps and snort logs folders
+      recursively, be sure to request this rule.
+    \end{itemize}
+
+    \newpage
+
+    All code developed in \emph{Pharo Smalltalk} is freely available
+    at
+    \url{http://smalltalkhub.com/#!/~MassimoNocentini/QuantitativeSystemsAnalysisExam}
+    and can be loaded directly via \emph{Monticello} smalltalk browser
+    with the following message:
+    \begin{adjustwidth}{-2cm}{}
 \begin{verbatim}
 MCHttpRepository
 	location: 'http://smalltalkhub.com/mc/MassimoNocentini/QuantitativeSystemsAnalysisExam/main'
 	user: ''
 	password: ''
 \end{verbatim}
-      \end{adjustwidth}    
-
+    \end{adjustwidth}    
+    In order to use our implementation the package \emph{CommandShell}
+    is required: to load it into the image, open the world menu (click
+    on an empty point on the image) then navigate to \emph{Tools} and
+    then \emph{Configuration Browser}, after that select the
+    \emph{CommandShell} in the list and then click \emph{Install
+      Stable Version}.
+      
     \begin{thebibliography}{9}
 
     \bibitem{SNORT}
