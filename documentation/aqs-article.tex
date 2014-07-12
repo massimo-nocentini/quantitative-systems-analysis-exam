@@ -16,36 +16,27 @@
 
     %% \noindent\lipsum[1] Just a test.\footnote{This is a footnote.}      
     \begin{abstract}
-      This short article collects the work I did in order to support
-      my Quantitative Systems Analysis exam. The goal is to study
-      resources usage respect a collection of user profiles, each of
-      them catch a way of using some applications of interest in
-      different time windows. I performed some experiments collecting
-      results in a OLAP ``star''-like relational schema in order to
-      provide summaries for dimensions under study, such as bandwidth
-      usage, network activity, CPU and memory consumption.
+      This article collects the work I did in order to support my
+      Quantitative Systems Analysis exam. The goal is to study
+      resources usage respect a collection of user profiles, each one
+      of them producing different network traffic and CPU/memory
+      consumption patterns in different time windows. I performed some
+      experiments repeating them over time, analyzing results with a
+      piece of Smalltalk software, initially implemented for the
+      problem at hand, but it turns out to be far more general.
     \end{abstract}
        
     \tableofcontents
    
-    % \section*{Introduction}
-
-    % This homework aims to study resources usage respect a collection
-    % of user profiles; we're mainly interested on network activities,
-    % but we pair it with CPU and memory consumption. In order to
-    % complete this work we take it apart, discussing the activity plan,
-    % the instrumentation of the system used by different profiles, the
-    % plan of experiments and finally data management and analysis of
-    % results in the following sections. In the 
  
     \newpage
-    \section{Analysis Plan}
-    In this section I tackle the problem at hand describing the
-    methodology used to perform the requested analysis, breaking the
-    problem statement down in its major components. In the next
-    section I'll describe them informally, leaving a precise
-    description of their actions in \autoref{sec:plan-of-experiment}.
 
+    \section{Analysis Plan}
+    
+    In this very first section we approach the problem taking it apart
+    in major components toward fulfilling our needs. We introduce the
+    main concept of \emph{user profile}, what we need to study and
+    what quantities deserve our attention.
 
     \subsection{User profiles}
     A central concept is that of \emph{user profile} which abstract
@@ -53,13 +44,16 @@
     considered three user profiles: a \emph{landlady}, a
     \emph{computer scientist} and a \emph{Free Software Foundation
       supporter}. Informally, a landlady will use the computer for
-    simple tasks such as checking emails, surfing the web and watch
+    simple tasks such as checking emails, surfing the web and watching
     some YouTube videos; on the other hand a computer scientist will
     use the computer for writing \TeX documents, programming (in
-    Smalltalk especially), collaborate with colleagues via instant
+    Smalltalk especially), collaborating with colleagues via instant
     messaging and checking its email account. Finally a FSF supporter
     just makes available its bandwidth supplying Ubuntu like distros
-    via Torrent protocol.
+    via Torrent protocol. Under the previous setting we think a fairly
+    comprehensive patterns of network traffic and CPU/memory
+    consumption can be analyzed, varying some operative condition as
+    explained next.
 
     \subsection{Different workloads in different time windows}
     In order to study the user profiles I arranged that each one of
@@ -80,12 +74,12 @@
     Bit Torrent client open for the entire day, switching the distros
     image supplied between morning, afternoon and evening.
 
-    It is important to observe that each activity isn't performed in
-    solitude, that is both email checking and programming could happen
-    concurrently with other actions, for example searching some
-    information on the web. This allow us to reify a scenario that is
-    close to a real context, with the drawback of losing repetition
-    among experiments execution.
+    % It is important to observe that each activity isn't performed in
+    % solitude, that is both email checking and programming could happen
+    % concurrently with other actions, for example searching some
+    % information on the web. This allow us to reify a scenario that is
+    % close to a real context, with the drawback of losing repetition
+    % among experiments execution.
 
     \subsection{Quantities to assess}
     We are interested on the resource consumption for each user
@@ -94,29 +88,33 @@
     be relevant for our analysis:
     \begin{description}
     \item[memory] the amount of free, buffered and cached memory;
-    \item[disk IO] the blocks received from and sent to a block
-      device;
     \item[CPU] the time spent running non-kernel code, kernel code and
       idle cycles;
     \item[network traffic] incoming and outgoing packets through a
       network interface, in particular we perform a complete packet
-      sniffing in order to aggregate results as explained in
-      \autoref{sec:data-management-result-analysis}.
+      sniffing.
     \end{description}
+    
+    The previous list is the tip of the iceberg, since we collect
+    actually much more information, such as the number of blocked,
+    running and waiting process, the number of context switches per
+    second, the number of interrupt per second and a lot of details
+    for each network packet. We focus our attention here on the listed
+    ones, however \autoref{sec:data-management-result-analysis}
+    reports summary tables with additional aggregated measures.
 
+    % \subsection{Factors and experiment conditioning}
+    % Since we would like to perform a monitoring of actions that
+    % actually happened, we fix as ``held-constant factors'' the use of
+    % applications as defined in \autoref{sec:plan-of-experiment}, while
+    % as ``allowed-to-vary factors'' every little deviations and
+    % ``micro'' actions from the main line experiment description. 
 
-    \subsection{Factors and experiment conditioning}
-    Since we would like to perform a monitoring of actions that
-    actually happened, we fix as ``held-constant factors'' the use of
-    applications as defined in \autoref{sec:plan-of-experiment}, while
-    as ``allowed-to-vary factors'' every little deviations and
-    ``micro'' actions from the main line experiment description. 
-
-    This implies that experiment definition be described proposing an
-    ``average'' behavior, allowing us to study the ``confirmation'' of
-    measured quantities respect the same activity; the ``discovery''
-    of patterns under slightly different operational conditions and
-    ``stability'' of collected measure.
+    % This implies that experiment definition be described proposing an
+    % ``average'' behavior, allowing us to study the ``confirmation'' of
+    % measured quantities respect the same activity; the ``discovery''
+    % of patterns under slightly different operational conditions and
+    % ``stability'' of collected measure.
 
     \section{Measuring system instrumentation}
     To collect data about quantities of interest we've instrumented a
@@ -162,8 +160,8 @@ vmstat <sec> -n -S M
 \begin{verbatim}
 sudo snort -l <log-directory>/ -b
 \end{verbatim}
-    In order to analyze the collected data, we access informations
-    saved binary file with the ``read'' feature provided by
+    In order to analyze the collected data, we access information
+    saved as binary file with the ``read'' feature provided by
     \emph{SNORT} itself, redirecting the output into a plain text file
     on which we run a ``cleaning'' \emph{sed}\cite{sed} script which
     transform it into another plain text file containing a row for
@@ -171,7 +169,7 @@ sudo snort -l <log-directory>/ -b
     has been used. We value this approach because it allow us to have
     a \emph{complete} history of what happened, implementing the
     processing phase in Smalltalk as described in
-    \autoref{sec:data-management-result-analysis}
+    \autoref{sec:data-management-result-analysis}.
 
     \newpage
     \section{Plan of experiments}
@@ -199,7 +197,8 @@ sudo snort -l <log-directory>/ -b
     our goal here is to compare data relative to the \emph{same}
     experiment collected in \emph{different} days, instead of
     comparing data relative to \emph{different} experiments collected
-    in the \emph{same} day.
+    in the \emph{same} day, toward studying if experiments are
+    repeatable or not.
 
     \subsubsection*{Experiments descriptions}
     
@@ -231,10 +230,10 @@ sudo snort -l <log-directory>/ -b
     \subsubsection*{Experiments design }
     We created the following experiments in order to observe resources
     consumption of multiple applications running at the same time, in
-    particular \emph{experiments one} and \emph{four} focus on email
-    checking while typesetting a document; \emph{experiment two} and
-    \emph{three} focus on programming and video conference (partly
-    instant messaging).
+    particular \emph{experiments one} focus on email checking while
+    typesetting a document; \emph{experiment two} and \emph{three}
+    focus on programming and video conference (partly instant
+    messaging).
 
     In each experiment we couple an application that produce network
     traffic with one that consume CPU and memory, in order to have a
@@ -268,7 +267,7 @@ sudo snort -l <log-directory>/ -b
       Hangout directly from his Google web mail interface, sending and
       receiving at least 10 short phrases. Here by ``short phrase'' we
       mean a message with at most 10 words and we also assume that the
-      login had already succeeded before starting the registering
+      log in had already succeeded before starting the registering
       tools.
     \item[experiment three] In the afternoon, the computer scientist
       discuss the fluid analysis results obtained previously in a
@@ -277,7 +276,7 @@ sudo snort -l <log-directory>/ -b
       conversation takes place the computer scientist performs one
       more time the fluid dynamics analysis. Here we assume that no
       textual instantaneous messages are exchanged, that the
-      conversation is about 1'30'' longer and that the login had
+      conversation is about 1'30'' longer and that the log in had
       already succeeded and the call is already running before
       starting the registering tools.
     \end{description}
@@ -287,15 +286,16 @@ sudo snort -l <log-directory>/ -b
 
     \subsubsection*{Experiments design }
     We created the following experiments in order to observe exactly
-    one activity respect network traffic and disk IO. Both three
-    experiments focus on the Transmission client for BitTorrent
-    protocol supplying, without any limit on upstream bandwidth, three
-    different Ubuntu-like distro images, one for each experiment.
+    one activity respect network traffic. Both three experiments focus
+    on the Transmission client for Bit Torrent protocol supplying,
+    without any limit on upstream bandwidth, three different
+    Ubuntu-like distro images, one for each experiment. For all
+    repetitions, we assume Transmission is already running before
+    starting the registering tools.
 
     This settings allow a comparison of both the \emph{same}
     experiment among \emph{different} repetitions, both
     \emph{different} experiments respect the \emph{same} repetition.
-
     As a side note, this allow us to make a comparison of the traffic
     generated by the three Ubuntu-like distros.
 
@@ -321,14 +321,23 @@ sudo snort -l <log-directory>/ -b
 
     \subsection{Execution methodology}
 
-    Given an user profile, we repeat each experiment for five
-    consecutive days, ensuring that each repetition happen within time
-    window as required by experiment description, even though instant
-    timings can varies among repetitions of the same experiment given
-    two different days. In this work we refer to days in which
-    experiment repetitions happen as \emph{Day one}, \emph{Day two},
-    \emph{Day three}, \emph{Day four} and \emph{Day five},
-    respectively.
+    Given an user profile, we do five repetitions for each
+    experiment. We'll associate each repetition to a \emph{numbered
+      day}, in particular we've used \emph{Day one}, \emph{Day two},
+    \emph{Day three}, \emph{Day four} and \emph{Day five} for the
+    first, second, third, fourth, fifth repetition, respectively. We
+    ensure that each repetition happen within time window as required
+    by experiment description, even though instant timings can varies
+    among repetitions of the same experiment. In order to make an
+    experiment repeatable as much as possible, we strictly follows the
+    experiment plan of each user profile, doing the fixed set of
+    action required by each experiment, focusing to eliminate any
+    change of deviation from the main track. In order to make this
+    work quite real, we've chosen to not read the same mails, with the
+    same contents, but if a new mail is actually present in the mail
+    account, the user can choose to read it or not. This assumption
+    introduce a sort of non-determinism, on the other hand increase
+    the truthfulness of the entire work.
 
     \newpage
     \section{Data management and analysis of results}
@@ -339,7 +348,7 @@ sudo snort -l <log-directory>/ -b
     results interpretation in the latter one.
 
     \subsection{Software architecture}
-    We developer a quite rich architecture to support our results
+    We developed a quite rich architecture to support our results
     interpretation. We would like to have an automatic tool that
     parses Snort log files, builds a comprehensive facts collection
     and supplies a fancy and flexible interface (programmatically, of
@@ -349,18 +358,21 @@ sudo snort -l <log-directory>/ -b
     brief description of this piece of work.
 
     \subsubsection{Pharo Smalltalk programming environment and TDD}
-    n
+    
     We implemented our code in Pharo Smalltalk, an image based
     programming environment. It allow a natural Test Driven
-    Development style, so we strictly follow it. In what follows we
-    refer to classes we've implemented and are available in the image,
-    assuming the curious reader has set up the enviroment correctly
-    (see \autoref{sec:appendix} for instructions).
+    Development style, so we strictly follow it. In what rest of this
+    section we refer to classes we've implemented and that are
+    available in the image, assuming the curious reader has set up the
+    environment correctly (see \autoref{sec:appendix} for
+    instructions).
 
     The class \emph{AQSLogFileTest} is the test suite we've created to
     drive our implementation: it contains test methods that assert on
     log file parsing, facts collecting, plotting and summary
-    generation.
+    generation, both for ``under the hood'' implementation detail,
+    both for producing plots and tables to be attached in this
+    document.
 
     \subsubsection{Snort log files parsing}
 
@@ -392,7 +404,7 @@ sudo snort -l <log-directory>/ -b
 
     Following \cite{bondavalli}, we introduced the concept of
     \emph{fact}, which collect all relevant information about events
-    we care about. We do not use a database backend, preferring live
+    we care about. We do not use a database back end, preferring live
     objects to talk with. This allow an interactive session where the
     user can query the facts collection using all the pretty stuff
     supplied by Pharo Smalltalk to inspect and explore them, for
@@ -407,12 +419,13 @@ sudo snort -l <log-directory>/ -b
     reifying this concept in its own dedicate class
     \emph{FactsSelection}. This allow us to use the selection as a
     ``trampoline'' object \cite{weiher-ducasse} toward actions, from
-    our point of view, plotting and summarizing. This allows
-    extensibility since if a developer would like to use facts for a
-    different goal, let say drawing histograms, it is required only to
-    implement an action object able to receive a selection of
-    facts. The two action classes relative to plotting and summarizing
-    are \emph{FactsPlotter} and \emph{FactsSummary}, respectively. 
+    our point of view, plotting and summarizing. Moreover, this make
+    the system extensible, since if a developer would like to use
+    facts for a different goal, let say drawing histograms, it is
+    required only to implement an action object able to receive a
+    selection of facts. The two action classes relative to plotting
+    and summarizing are \emph{FactsPlotter} and \emph{FactsSummary},
+    respectively.
 
     It is possible to create a selection of fact providing a user
     profile, an experiment number and a day, additionally to an
@@ -422,19 +435,19 @@ sudo snort -l <log-directory>/ -b
 
     We supply one implementation for plotting a facts selection, with
     two main features: the one allow to scatter a quantity of interest
-    agains time instant, the other allow to partition a quantity by
+    against time instant, the other allow to partition a quantity by
     another fact property, associating a different formatting for each
-    group. We've used the former to scatter the CPU usage, while the
-    latter to partition packet length by protocol packet membership,
-    just for an use case. It is interesting to observe that both
-    quantity selection both partitioning is implemented via an high
-    order system, that is the user can select \emph{any} quantity
-    using a declarative style, nothing is hardcoded for the problem at
+    group. We've used the former to scatter the entire network
+    traffic, while the latter to partition packet length by network
+    protocol. It is interesting to observe that both quantity
+    selection both partitioning is implemented via an high order
+    system, that is the user can select \emph{any} quantity using a
+    declarative style, nothing is hard coded for the problem at
     hand. From another point of view, if another Snort log file is
     under study, with different properties than ours, it is possible
     to use this plotting mechanisms just plugging in a block that
     selects the quantity it is required to scatter (of course, the
-    data series format is customizable too). As plotting backend we
+    data series format is customizable too). As plotting back end we
     lie on \emph{GnuPlot} \cite{gnuplot}.
 
     \subsubsection{Summarizing a facts selection}
@@ -482,7 +495,12 @@ sudo snort -l <log-directory>/ -b
     report first a scatter with the complete network traffic,
     immediately followed by a refined scatter filtering out packets
     without payload, while rest plots always refers to the latter
-    situation.
+    situation. Moreover, we report only one plot taken from the five
+    available for each experiment, leaving room in a dedicated
+    subsection to observe some differences among experiment's
+    repetitions if there exists any \footnote{However, in the Appendix
+      we report a Dropbox link to an archive which contains all
+      plots.}.
 
     \subsubsection{On Landlady user profile}
 
@@ -491,11 +509,11 @@ sudo snort -l <log-directory>/ -b
     \autoref{fig:landlady-user-profile-comprehensive-length-scatter}
     we report the scatter of the complete traffic, attaching
     comprehensive packet length on ordinates, against capturing
-    timestamps on abscissa. We observe some background noise during
+    time stamps on abscissa. We observe some background noise during
     all the registering time window, and we map the first spike to
-    GMail web page request, the following traffic to performing login,
+    GMail web page request, the following traffic to performing log in,
     the successive two spikes to reading two mails and the final one
-    to logout, respectively. We report in
+    to log out, respectively. We report in
     \autoref{fig:landlady-user-profile-comprehensive-length-scatter-filtering-on-payload}
     a ``cleaned'' version of the same quantity, filtering out packets
     such that do not contain payload. In
@@ -511,14 +529,14 @@ sudo snort -l <log-directory>/ -b
     \autoref{fig:landlady-user-profile-comprehensive-length-by-direction}.
     
     We do not report plots about CPU and memory usage since they are
-    quite flat and do not catch significative events corresponding to
-    user profile actions.
+    quite flat and do not catch significant events outside experiment
+    main track actions.
 
     \begin{figure}
       \centering
       \includegraphics{eps/plot-Landlady-ExperimentOne-DayTwo-quantity-comprehensive-length.eps}
       \caption{\emph{Landlady} user profile, experiment one:
-        scatter of comprehensive length against captured timestamp in
+        scatter of comprehensive length against captured time stamp in
         nanoseconds}
       \label{fig:landlady-user-profile-comprehensive-length-scatter}
     \end{figure}
@@ -596,7 +614,7 @@ sudo snort -l <log-directory>/ -b
       \centering
       \includegraphics{eps/plot-Landlady-ExperimentTwo-DayThree-quantity-all-packets-comprehensive-length.eps}
       \caption{\emph{Landlady} user profile, experiment two: scatter
-        of comprehensive length against captured timestamp in
+        of comprehensive length against captured time stamp in
         nanoseconds}
       \label{fig:landlady-user-profile-exp-two-comprehensive-length-scatter}
     \end{figure}
@@ -605,7 +623,7 @@ sudo snort -l <log-directory>/ -b
       \centering
       \includegraphics{eps/plot-Landlady-ExperimentTwo-DayThree-quantity-only-packets-with-payload-comprehensive-length.eps}
       \caption{\emph{Landlady} user profile, experiment two: scatter
-        of comprehensive length against captured timestamp in
+        of comprehensive length against captured time stamp in
         nanoseconds, filtering out packets without payload}
       \label{fig:landlady-user-profile-exp-two-comprehensive-length-scatter-filtering-on-payload}
     \end{figure}
@@ -648,11 +666,11 @@ sudo snort -l <log-directory>/ -b
     we report the scatter of network traffic produced in experiment
     three, the former covers all packets instead the latter filter out
     packets without a payload. Its quite clear the association with
-    user actions: the first intense spike is for GMail login, then
+    user actions: the first intense spike is for GMail log in, then
     there are two ``blocks'' with sparse traffic, each corresponding
     to one draft preparation and the final spike is one mail
-    sending. It is quite surprinsing that packet distribution is quite
-    uniform after the initial login, as histogram reports in
+    sending. It is quite surprising that packet distribution is quite
+    uniform after the initial log in, as histogram reports in
     \autoref{fig:landlady-user-profile-exp-three-count-histogram}
     using bins of length 5 seconds each.
 
@@ -668,7 +686,7 @@ sudo snort -l <log-directory>/ -b
       \centering
       \includegraphics{eps/plot-Landlady-ExperimentThree-DayThree-quantity-all-packets-comprehensive-length.eps}
       \caption{\emph{Landlady} user profile, experiment three: scatter
-        of comprehensive length against captured timestamp in
+        of comprehensive length against captured time stamp in
         nanoseconds}
       \label{fig:landlady-user-profile-exp-three-comprehensive-length-scatter}
     \end{figure}
@@ -677,7 +695,7 @@ sudo snort -l <log-directory>/ -b
       \centering
       \includegraphics{eps/plot-Landlady-ExperimentThree-DayThree-quantity-only-packets-with-payload-comprehensive-length.eps}
       \caption{\emph{Landlady} user profile, experiment three: scatter
-        of comprehensive length against captured timestamp in
+        of comprehensive length against captured time stamp in
         nanoseconds, filtering out packets without payload}
       \label{fig:landlady-user-profile-exp-three-comprehensive-length-scatter-filtering-on-payload}
     \end{figure}
@@ -737,8 +755,8 @@ sudo snort -l <log-directory>/ -b
     Network traffic is quite accurate, as in scatters we've to resort
     to nanoseconds in order to see events. On the other hand, CPU and
     memory consumption didn't have the same accuracy, since
-    \emph{vmstat} drops lines with a maximum rate of 1 second: this
-    for \emph{experiment one} is useless since the entire time window
+    \emph{vmstat} drops lines with a maximum rate of 1 second: for
+    \emph{experiment one} it is useless since the entire time window
     duration is lower than a minute.
   
 
@@ -765,7 +783,7 @@ sudo snort -l <log-directory>/ -b
     we report the scatter of the complete traffic after removing
     background noise filtering protocol control messages: we map the
     first spike to GMail web page request, the following traffic to
-    performing login, two thin spikes to reading two mails and the
+    performing log in, two thin spikes to reading two mails and the
     final one to attaching the compiled draft and sending mail,
     respectively.  In
     \autoref{fig:computer-scientist-user-profile-exp-one-count-histogram}
@@ -817,7 +835,7 @@ sudo snort -l <log-directory>/ -b
       \centering
       \includegraphics{eps/plot-ComputerScientist-ExperimentOne-DayThree-aggregated-average-of-cpu-idle-percentage-time-by-timestamp-interval.eps}
       \caption{\emph{ComputerScientist} user profile, experiment one:
-        histogram about CPU consumption agains bins of length 5
+        histogram about CPU consumption against bins of length 5
         seconds each.}
       \label{fig:computer-scientist-user-profile-aggregate-cpu-idle-percentage}
     \end{figure}
@@ -829,7 +847,7 @@ sudo snort -l <log-directory>/ -b
     For this experiment we leave the plot about comprehensive network
     traffic, paying attention to some details. In
     \autoref{fig:computer-scientist-user-profile-experiment-two-comprehensive-length-scatter-filtering-on-payload-partitioned-by-direction}
-    we report a scatter of the traffic of payloaded packets,
+    we report a scatter of the traffic of pay-loaded packets,
     partitioned by route direction: it is interesting that, since this
     traffic is generated only by textual instant messages, the
     incoming packets have a smaller length than outgoing packets,
@@ -877,7 +895,7 @@ sudo snort -l <log-directory>/ -b
       \centering
       \includegraphics{eps/plot-ComputerScientist-ExperimentTwo-DayFive-aggregated-average-of-cpu-idle-percentage-time-by-timestamp-interval.eps}
       \caption{\emph{ComputerScientist} user profile, experiment two:
-        histogram about CPU consumption agains bins of length 5
+        histogram about CPU consumption against bins of length 5
         seconds each.}
       \label{fig:computer-scientist-user-profile-experiment-two-aggregate-cpu-idle-percentage}
     \end{figure}
@@ -886,7 +904,7 @@ sudo snort -l <log-directory>/ -b
 
     In
     \autoref{fig:computer-scientist-user-profile-experiment-three-comprehensive-length-scatter-filtering-on-payload}
-    we report the scatter of network traffic, filtering payloaded
+    we report the scatter of network traffic, filtering pay loaded
     packets: we see two ``partitions'', a lower one possibly related
     to control packets, and a higher one possibly related to video
     frames. As we would expect,
@@ -923,7 +941,7 @@ sudo snort -l <log-directory>/ -b
       \centering
       \includegraphics{eps/plot-ComputerScientist-ExperimentThree-DayTwo-aggregated-average-of-cpu-idle-percentage-time-by-timestamp-interval.eps}
       \caption{\emph{ComputerScientist} user profile, experiment
-        three: histogram about CPU consumption agains bins of length 5
+        three: histogram about CPU consumption against bins of length 5
         seconds each.}
       \label{fig:computer-scientist-user-profile-experiment-three-aggregate-cpu-idle-percentage}
     \end{figure}
@@ -968,7 +986,7 @@ sudo snort -l <log-directory>/ -b
       \centering
       \includegraphics{eps/plot-FSFSupporter-ExperimentTwo-DayThree-quantity-only-packets-with-payload-comprehensive-length-by-protocol.eps}
       \caption{\emph{ComputerScientist} user profile, experiment
-        three: histogram about CPU consumption agains bins of length 5
+        three: histogram about CPU consumption against bins of length 5
         seconds each.}
       \label{fig:fsf-supporter-ubuntu-scatter}
     \end{figure}
@@ -977,7 +995,7 @@ sudo snort -l <log-directory>/ -b
       \centering
       \includegraphics{eps/plot-FSFSupporter-ExperimentThree-DayFour-quantity-only-packets-with-payload-comprehensive-length-by-protocol.eps}
       \caption{\emph{ComputerScientist} user profile, experiment
-        three: histogram about CPU consumption agains bins of length 5
+        three: histogram about CPU consumption against bins of length 5
         seconds each.}
       \label{fig:fsf-supporter-xubuntu-scatter}
     \end{figure}
@@ -986,16 +1004,16 @@ sudo snort -l <log-directory>/ -b
       \centering
       \includegraphics{eps/plot-FSFSupporter-ExperimentOne-DayFive-aggregated-average-of-comprehensive-length-by-timestamp-interval.eps}
       \caption{\emph{ComputerScientist} user profile, experiment
-        three: histogram about CPU consumption agains bins of length 5
+        three: histogram about CPU consumption against bins of length 5
         seconds each.}
       \label{fig:fsf-supporter-kubuntu-histogram}
     \end{figure}
 
     \subsubsection*{Repeating experiments issues}
     
-    Even though experiments had been repetead in the same conditions,
+    Even though experiments had been repeated in the same conditions,
     for this user profile hadn't been possible to have repeatable
-    experiments. We justify it by the connectionless nature of
+    experiments. We justify it by the connection less nature of
     experiments and we didn't do anything more to have some recurring
     pattern, all dependends by world wide users' requests.Hence we
     make a few observation without proceeding by division as did up to
@@ -1017,7 +1035,7 @@ sudo snort -l <log-directory>/ -b
     binary log files about 20 MB each for 2' of observation. An
     interesting aspect not considered in this analysis should be the
     number of disk accesses for fetching data. We discard measures
-    about CPU consumptions since not relevant for the experiments at
+    about CPU consumption since not relevant for the experiments at
     hand, nothing stress the CPU by an interesting computation effort.
 
     \begin{table}
